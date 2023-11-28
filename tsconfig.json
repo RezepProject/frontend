@@ -3,6 +3,7 @@
         "module": "amd",
         "sourceMap": true,
         "target": "es5",
+        "moduleResolution": "node",
         "outDir": "public/js",
         "types": [
             "requirejs",

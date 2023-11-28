@@ -10,7 +10,7 @@ npm install --save three
 # vite
 npm install --save-dev vite
 ```
-3. Click the "start.bat" file in the Frontend Folder to launch the project, now you can view the page on http://localhost:5173
+3. Click the "start.bat" file in the Frontend Folder to launch the project, now you can view the page on http://localhost:5173 (shuld start automaticlly)
 4. use ```npm install --save @types/three``` to install the three types for typescript
 5. dont forget to install typescript ```npm i typescript --save-dev``` ;)
 
