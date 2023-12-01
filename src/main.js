@@ -13,12 +13,21 @@ const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 
 camera.position.z = 2;
+/*
+document.addEventListener('mousemove', (e) => {
+	cube.position.x = ((e.clientX - window.innerWidth / 2) / (window.innerWidth / 4));
+	cube.position.y = ((e.clientY - window.innerHeight / 2) / (window.innerHeight / 3)) * -1;
+});
+*/
 
 function animate() {
 	requestAnimationFrame( animate );
 
 	cube.rotation.x += 0.01;
 	cube.rotation.y += 0.01;
+
+	cube.position.x = Math.cos(cube.rotation.x);
+	cube.position.y = Math.sin(cube.position.y);
 
 	renderer.render( scene, camera );
 }
