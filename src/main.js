@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { outp } from './receiver';
+
+document.getElementById("loadingScreen").hidden = true;
+
+console.log(outp[0]);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -21,15 +26,16 @@ loader.load( './torusModel.glb', function ( gltf ) {
 	scene.add(gltf.scene);
 
 }, undefined, function ( error ) {
-	alert("model not found");
+	console.log("model not found");
 } );
 
 loader.load( './testCube.glb', function ( gltf ) {
+	gltf.scene.position.z = -1;
 	weired = gltf.scene;
 	scene.add(gltf.scene);
 
 }, undefined, function ( error ) {
-	alert("model not found");
+	console.log("model not found");
 } );
 /*
 const geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -46,10 +52,9 @@ document.addEventListener('mousemove', (e) => {
 camera.position.z = 2;
 
 
-
 function animate() {
 	requestAnimationFrame( animate );
-	weired.position.z = -1;
+
 	weired.rotation.x += 0.01;
 
 	doNUT.rotation.x += 0.01;
@@ -61,5 +66,9 @@ function animate() {
 
 	renderer.render( scene, camera );
 }
+
+var msg = new SpeechSynthesisUtterance();
+msg.text = outp[0];
+window.speechSynthesis.speak(msg);
 
 animate();
