@@ -1,10 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { outp } from './receiver';
+import { getAIResult } from './receiver';
 
 document.getElementById("loadingScreen").hidden = true;
-
-console.log(outp[0]);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -37,17 +35,6 @@ loader.load( './testCube.glb', function ( gltf ) {
 }, undefined, function ( error ) {
 	console.log("model not found");
 } );
-/*
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
-
-document.addEventListener('mousemove', (e) => {
-	cube.position.x = ((e.clientX - window.innerWidth / 2) / (window.innerWidth / 4));
-	cube.position.y = ((e.clientY - window.innerHeight / 2) / (window.innerHeight / 3)) * -1;
-});
-*/
 
 camera.position.z = 2;
 
@@ -67,8 +54,18 @@ function animate() {
 	renderer.render( scene, camera );
 }
 
+/*
 var msg = new SpeechSynthesisUtterance();
-msg.text = outp[0];
+msg.text = getAIResult("");
 window.speechSynthesis.speak(msg);
+*/
 
-animate();
+function checkFlag() {
+    if(doNUT == undefined || weired == undefined) {
+       window.setTimeout(checkFlag, 100);
+    } else {
+      animate();
+    }
+}
+
+checkFlag();

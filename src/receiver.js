@@ -1,5 +1,4 @@
-export let outp = "no outp recived";
-
+export async function getAIResult(inputText){
 const route = "http://localhost:5260";
 
 let resToken = await fetch(route + "/authentication", {
@@ -23,5 +22,6 @@ let resText = await fetch(route + "/interactive", {
     }
 });
 
-outp = await resText.json();
+return await resText.json();
+}
   
