@@ -65,7 +65,6 @@ function checkFlag() {
     if(doNUT == undefined || weired == undefined) {
        window.setTimeout(checkFlag, 100);
     } else {
-	  
       animate();
     }
 }
