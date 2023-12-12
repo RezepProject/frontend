@@ -56,8 +56,10 @@ function animate() {
 
 
 var msg = new SpeechSynthesisUtterance();
-//msg.text = getAIResult("");
-msg.text = "die sprachausgabe funktioniert";
+let textOfMsg = await getAIResult("");
+msg.text = textOfMsg;
+console.log(textOfMsg);
+//msg.text = "die sprachausgabe funktioniert";
 
 document.onclick = () => window.speechSynthesis.speak(msg);
 
