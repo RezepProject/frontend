@@ -54,16 +54,18 @@ function animate() {
 	renderer.render( scene, camera );
 }
 
-/*
+
 var msg = new SpeechSynthesisUtterance();
-msg.text = getAIResult("");
-window.speechSynthesis.speak(msg);
-*/
+//msg.text = getAIResult("");
+msg.text = "die sprachausgabe funktioniert";
+
+document.onclick = () => window.speechSynthesis.speak(msg);
 
 function checkFlag() {
     if(doNUT == undefined || weired == undefined) {
        window.setTimeout(checkFlag, 100);
     } else {
+	  
       animate();
     }
 }
