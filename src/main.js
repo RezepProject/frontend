@@ -12,7 +12,7 @@ const loader = new GLTFLoader();
 let doNUT;
 let weired;
 
-const light = new THREE.AmbientLight( 0xffffff ); // soft white light
+const light = new THREE.AmbientLight( 0xffffff );
 scene.add( light );
 
 const renderer = new THREE.WebGLRenderer();
@@ -42,7 +42,7 @@ camera.position.z = 2;
 function animate() {
 	requestAnimationFrame( animate );
 
-	weired.rotation.x += 0.01;
+	weired.rotation.y += 0.01;
 
 	doNUT.rotation.x += 0.01;
 	
@@ -56,9 +56,9 @@ function animate() {
 
 
 var msg = new SpeechSynthesisUtterance();
-let textOfMsg = await getAIResult("");
-msg.text = textOfMsg;
-console.log(textOfMsg);
+//let textOfMsg = await getAIResult("");
+//msg.text = textOfMsg;
+msg.text = "test";
 //msg.text = "die sprachausgabe funktioniert";
 
 document.onclick = () => window.speechSynthesis.speak(msg);
@@ -67,6 +67,7 @@ function checkFlag() {
     if(doNUT == undefined || weired == undefined) {
        window.setTimeout(checkFlag, 100);
     } else {
+		weired.position.z = -3;
       animate();
     }
 }
