@@ -132,3 +132,91 @@ function checkFlag() {
 }
 
 checkFlag();
+
+// main.js
+const socket = new WebSocket('ws://localhost:3000');
+
+// Stellen Sie sicher, dass diese Größe groß genug ist, um sinnvolle Audio-Daten zu sammeln, z.B. 1 Sekunde Audio
+const BUFFER_SIZE = 16000 * 10; // Für 10 Sekunde Audio bei 16kHz
+let audioBuffer = [];
+
+async function initAudio() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        const audioContext = new AudioContext();
+        await audioContext.audioWorklet.addModule('audioProcessor.js'); // Pfad zur audioProcessor.js
+
+        const source = audioContext.createMediaStreamSource(stream);
+        const processorNode = new AudioWorkletNode(audioContext, 'audio-processor');
+
+        processorNode.port.onmessage = event => {
+            audioBuffer.push(...event.data);
+
+            if (audioBuffer.length >= BUFFER_SIZE) {
+                const wavData = convertToWavFormat(audioBuffer);
+                socket.send(wavData);
+                audioBuffer = []; // Reset the buffer
+            }
+        };
+
+        source.connect(processorNode).connect(audioContext.destination);
+    } catch (error) {
+        console.error('MediaDevices.getUserMedia() error:', error);
+    }
+}
+
+
+
+// function convertToWavFormat(input) {
+//     const buffer = new ArrayBuffer(input.length * 2);
+//     const view = new DataView(buffer);
+
+//     for (let i = 0, offset = 0; i < input.length; i++, offset += 2) {
+//         const s = Math.max(-1, Math.min(1, input[i]));
+//         view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+//     }
+// 	//console.log(buffer);
+
+//     return buffer;
+// }
+
+function convertToWavFormat(samples) {
+    const buffer = new ArrayBuffer(44 + samples.length * 2);
+    const view = new DataView(buffer);
+
+    // Schreiben des WAV-Header
+    writeString(view, 0, 'RIFF'); // ChunkID
+    view.setUint32(4, 32 + samples.length * 2, true); // ChunkSize
+    writeString(view, 8, 'WAVE'); // Format
+    writeString(view, 12, 'fmt '); // Subchunk1ID
+    view.setUint32(16, 16, true); // Subchunk1Size
+    view.setUint16(20, 1, true); // AudioFormat
+    view.setUint16(22, 1, true); // NumChannels
+    view.setUint32(24, 44100, true); // SampleRate
+    view.setUint32(28, 44100 * 2, true); // ByteRate
+    view.setUint16(32, 2, true); // BlockAlign
+    view.setUint16(34, 16, true); // BitsPerSample
+    writeString(view, 36, 'data'); // Subchunk2ID
+    view.setUint32(40, samples.length * 2, true); // Subchunk2Size
+
+    // Schreiben der Samples
+    floatTo16BitPCM(view, 44, samples);
+
+    return new Blob([view], { type: 'audio/wav' });
+}
+
+function writeString(view, offset, string) {
+    for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+    }
+}
+
+function floatTo16BitPCM(view, offset, input) {
+    for (let i = 0; i < input.length; i++, offset += 2) {
+        const s = Math.max(-1, Math.min(1, input[i]));
+        view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+    }
+}
+
+
+initAudio();
