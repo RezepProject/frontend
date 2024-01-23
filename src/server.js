@@ -12,13 +12,9 @@ server.on('connection', ws => {
                 audio: { content: message.toString('base64') },
                 config: { encoding: 'LINEAR16', sampleRateHertz: 44100, languageCode: 'de-DE' },
             };
-
-            //console.log('Received message:', request.audio);
             
             const [response] = await client.recognize(request);
             console.log("Response: ", response);
-
-           
 
             const transcription = response.results
                 .map(result => result.alternatives[0].transcript)

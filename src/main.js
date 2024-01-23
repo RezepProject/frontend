@@ -116,6 +116,7 @@ function animate() {
 
 var msg = new SpeechSynthesisUtterance();
 //let textOfMsg = await getAIResult("");
+msg.lang = 'de-DE';
 //msg.text = textOfMsg;
 msg.text = "es funktioniert";
 //msg.text = "die sprachausgabe funktioniert";
@@ -133,10 +134,11 @@ function checkFlag() {
 
 checkFlag();
 
-// main.js
+
+//FDF
+
 const socket = new WebSocket('ws://localhost:3000');
 
-// Stellen Sie sicher, dass diese Größe groß genug ist, um sinnvolle Audio-Daten zu sammeln, z.B. 1 Sekunde Audio
 const BUFFER_SIZE = 16000 * 10; // Für 10 Sekunde Audio bei 16kHz
 let audioBuffer = [];
 
@@ -144,7 +146,7 @@ async function initAudio() {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
         const audioContext = new AudioContext();
-        await audioContext.audioWorklet.addModule('audioProcessor.js'); // Pfad zur audioProcessor.js
+        await audioContext.audioWorklet.addModule('audioProcessor.js');
 
         const source = audioContext.createMediaStreamSource(stream);
         const processorNode = new AudioWorkletNode(audioContext, 'audio-processor');
@@ -158,27 +160,12 @@ async function initAudio() {
                 audioBuffer = []; // Reset the buffer
             }
         };
-
         source.connect(processorNode).connect(audioContext.destination);
     } catch (error) {
         console.error('MediaDevices.getUserMedia() error:', error);
     }
 }
 
-
-
-// function convertToWavFormat(input) {
-//     const buffer = new ArrayBuffer(input.length * 2);
-//     const view = new DataView(buffer);
-
-//     for (let i = 0, offset = 0; i < input.length; i++, offset += 2) {
-//         const s = Math.max(-1, Math.min(1, input[i]));
-//         view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-//     }
-// 	//console.log(buffer);
-
-//     return buffer;
-// }
 
 function convertToWavFormat(samples) {
     const buffer = new ArrayBuffer(44 + samples.length * 2);
