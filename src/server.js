@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const speech = require('@google-cloud/speech');
 
 const server = new WebSocket.Server({ port: 3000 });
-const client = new speech.SpeechClient({ keyFilename: './src/rezep-412016-6a17bd3dd119.json' });
+const client = new speech.SpeechClient({ keyFilename: './src/rezep-412016-44fe00ad3a67.json' });
 
 server.on('connection', ws => {
     ws.on('message', async message => {
