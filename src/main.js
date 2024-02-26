@@ -82,14 +82,15 @@ loader.load( './boner.glb', function ( gltf ) {
 	console.log("model not found");
 } );
 
-loader.load( './testCube.glb', function ( gltf ) {
-	gltf.scene.position.z = -1;
-	weired = gltf.scene;
-	scene.add(gltf.scene);
 
+loader.load( './testCube.glb', function ( gltf ) {
+	gltf.scene.position.z = 5;
+	weired = gltf.scene;
+	//scene.add(gltf.scene);
 }, undefined, function ( error ) {
 	console.log("model not found");
 } );
+
 
 camera.position.z = 7;
 
@@ -97,9 +98,14 @@ camera.position.z = 7;
 function animate() {
 	requestAnimationFrame( animate );
 
-	weired.rotation.y += 0.01;
-	skeleton.bones[1].rotation.z += 0.02;
-	skeleton.bones[1].rotation.x += 0.02;
+	//weired.rotation.y += 0.01;
+	//weired.position.z = 6.5;
+	//weired.position.y = -1.3;
+	//skeleton.bones[1].rotation.z += 0.02;
+	//skeleton.bones[1].rotation.x += 0.02;
+	mesh.position.y = -1.3;
+	mesh.position.z = 6.5;
+	//skeleton.bones[3].rotation.x += 0.02;
 
 	/*
 	doNUT.rotation.x += 0.01;
@@ -121,7 +127,7 @@ msg.lang = 'de-DE';
 msg.text = "es funktioniert";
 //msg.text = "die sprachausgabe funktioniert";
 
-document.onclick = () => window.speechSynthesis.speak(msg);
+document.onclick = nod;
 
 function checkFlag() {
     if(mesh == undefined || weired == undefined) {
@@ -133,6 +139,15 @@ function checkFlag() {
 }
 
 checkFlag();
+
+function nod(){
+	//window.speechSynthesis.speak(msg)
+	skeleton.bones[3].rotation.x += 1;
+	performance.now();
+	let startTime = performance.now();
+	let endTime = performance.now();
+	console.log(endTime - startTime);
+}
 
 
 //FDF
