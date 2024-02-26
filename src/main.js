@@ -17,6 +17,7 @@ let skeleton;
 const light = new THREE.AmbientLight( 0xffffff );
 scene.add( light );
 
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
@@ -94,6 +95,11 @@ loader.load( './testCube.glb', function ( gltf ) {
 
 camera.position.z = 7;
 
+document.addEventListener('mousemove', (e) => {
+    console.log(`Mouse X: ${e.clientX}, Mouse Y: ${e.clientY}`);
+	skeleton.bones[3].rotation.y = e.clientX / 1000 - 1;
+});
+
 
 function animate() {
 	requestAnimationFrame( animate );
@@ -105,7 +111,6 @@ function animate() {
 	//skeleton.bones[1].rotation.x += 0.02;
 	mesh.position.y = -1.3;
 	mesh.position.z = 6.5;
-	//skeleton.bones[3].rotation.x += 0.02;
 
 	/*
 	doNUT.rotation.x += 0.01;
@@ -140,14 +145,19 @@ function checkFlag() {
 
 checkFlag();
 
-function nod(){
+async function nod(){
 	//window.speechSynthesis.speak(msg)
-	skeleton.bones[3].rotation.x += 1;
+	//skeleton.bones[3].rotation.x += 1;
 	performance.now();
 	let startTime = performance.now();
+	for(let i = 0; i < Math.PI; i += 0.05){
+		skeleton.bones[3].rotation.x = Math.sin(i) / 2;
+		await new Promise(r => setTimeout(r, 1));
+	}
 	let endTime = performance.now();
 	console.log(endTime - startTime);
 }
+
 
 
 //FDF
