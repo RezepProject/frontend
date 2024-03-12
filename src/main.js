@@ -203,12 +203,18 @@ async function nod(){
 
 
 function moveMouth(){
-	for(let i = 0; i < 5; i++){
+	for(let i = 0; i < 8; i++){
 		skeleton.bones[i+25].position.z = listUp[i] + Math.sin(epsylon) / 250;
 	}
-	for(let i = 0; i < 5; i++){
-		skeleton.bones[i+20].position.z = listDown[i] - Math.sin(epsylon) / 290;
+	for(let i = 0; i < 3; i++){
+		skeleton.bones[i+20].position.z = listDown[i] - Math.sin(epsylon) / 400;
 	}
+	for(let i = 0; i < 2; i++){
+		skeleton.bones[i+45].position.z = listUp[i+8] + Math.sin(epsylon) / 290;
+	}/*
+	for(let i = 0; i < 5; i++){
+		skeleton.bones[i+15].position.z = listDown[i+5] - Math.sin(epsylon) / 290;
+	}*/
 	if(epsylon >= Math.PI){
 		epsylon = 0;
 	}
@@ -218,12 +224,20 @@ function moveMouth(){
 function setDefaultPos(){
 	listUp = [];
 	listDown = [];
-	for(let i = 25; i < 30; i++){
+	for(let i = 25; i < 33; i++){
 		listUp.push(skeleton.bones[i].position.z);
 	}
-	for(let i = 20; i < 25; i++){
+	for(let i = 20; i < 23; i++){
 		listDown.push(skeleton.bones[i].position.z);
 	}
+	
+	for(let i = 45; i < 47; i++){
+		listUp.push(skeleton.bones[i].position.z);
+	}/*
+	for(let i = 15; i < 20; i++){
+		listDown.push(skeleton.bones[i].position.z);
+	}
+	*/
 }
 
 
