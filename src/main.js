@@ -14,6 +14,22 @@ let weired;
 
 let skeleton;
 
+
+
+/*
+let bonecount = 25;
+let posOfSkel;
+let count = 0;
+*/
+
+let listUp;
+let listDown;
+let epsylon = 0;
+
+let isSpeaking = false;
+
+
+
 const light = new THREE.AmbientLight( 0xffffff );
 scene.add( light );
 
@@ -112,6 +128,24 @@ function animate() {
 	mesh.position.y = -1.3;
 	mesh.position.z = 6.5;
 
+	if(isSpeaking){
+		moveMouth();
+	}
+
+	
+
+/*
+	if(count > 60){
+		count = 0;
+		skeleton.bones[bonecount].position.y = posOfSkel;
+		bonecount ++;
+		console.log(bonecount);
+		posOfSkel = skeleton.bones[bonecount].position.y;
+	}
+
+	skeleton.bones[bonecount].position.y += 0.03;
+	count++;
+*/
 	/*
 	doNUT.rotation.x += 0.01;
 	
@@ -120,7 +154,7 @@ function animate() {
 	doNUT.position.x = Math.cos(doNUT.rotation.x);
 	doNUT.position.y = Math.sin(doNUT.position.z);
 	*/
-
+	
 	renderer.render( scene, camera );
 }
 
@@ -129,16 +163,24 @@ var msg = new SpeechSynthesisUtterance();
 //let textOfMsg = await getAIResult("");
 msg.lang = 'de-DE';
 //msg.text = textOfMsg;
-msg.text = "es funktioniert";
+msg.text = "Ja Leute, unsere sprachausgabe funktioniert";
+msg.rate = 2;
 //msg.text = "die sprachausgabe funktioniert";
 
 document.onclick = nod;
+
+msg.onend = function (event) {
+	epsylon = 0;
+	isSpeaking = false;
+	moveMouth();
+};
 
 function checkFlag() {
     if(mesh == undefined || weired == undefined) {
        window.setTimeout(checkFlag, 100);
     } else {
 		weired.position.z = -3;
+		setDefaultPos();
       animate();
     }
 }
@@ -146,7 +188,8 @@ function checkFlag() {
 checkFlag();
 
 async function nod(){
-	//window.speechSynthesis.speak(msg)
+	window.speechSynthesis.speak(msg)
+	isSpeaking = true;
 	//skeleton.bones[3].rotation.x += 1;
 	performance.now();
 	let startTime = performance.now();
@@ -156,6 +199,31 @@ async function nod(){
 	}
 	let endTime = performance.now();
 	console.log(endTime - startTime);
+}
+
+
+function moveMouth(){
+	for(let i = 0; i < 5; i++){
+		skeleton.bones[i+25].position.z = listUp[i] + Math.sin(epsylon) / 250;
+	}
+	for(let i = 0; i < 5; i++){
+		skeleton.bones[i+20].position.z = listDown[i] - Math.sin(epsylon) / 290;
+	}
+	if(epsylon >= Math.PI){
+		epsylon = 0;
+	}
+	epsylon += 0.17;
+}
+
+function setDefaultPos(){
+	listUp = [];
+	listDown = [];
+	for(let i = 25; i < 30; i++){
+		listUp.push(skeleton.bones[i].position.z);
+	}
+	for(let i = 20; i < 25; i++){
+		listDown.push(skeleton.bones[i].position.z);
+	}
 }
 
 
