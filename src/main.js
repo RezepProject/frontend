@@ -14,7 +14,9 @@ let weired;
 
 let skeleton;
 
-
+const speakingText = "honestly, the text to speech just sounds way better in english";
+let textlist;
+splitSpeakingText();
 
 /*
 let bonecount = 25;
@@ -37,6 +39,18 @@ scene.add( light );
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
+
+
+function splitSpeakingText(){
+	let tmpTxt;
+	for(let i = 0; i < speakingText.split(' ').length / 4; i++){
+		tmpTxt = "";
+		for(let n = 0; n < 4; n++){
+			tmpTxt += speakingText.split(' ')[n + i*4];
+		}
+		textlist = tmpTxt;
+	}
+}
 
 loader.load( './boner.glb', function ( gltf ) {
 	mesh = gltf.scene;
@@ -161,10 +175,12 @@ function animate() {
 
 var msg = new SpeechSynthesisUtterance();
 //let textOfMsg = await getAIResult("");
-msg.lang = 'de-DE';
+msg.lang = 'en-US';
 //msg.text = textOfMsg;
-msg.text = "Ja Leute, unsere sprachausgabe funktioniert";
-msg.rate = 2;
+msg.text = textlist[0];
+console.log(textlist);
+msg.rate = 1;
+
 //msg.text = "die sprachausgabe funktioniert";
 
 document.onclick = nod;

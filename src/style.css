@@ -19,3 +19,13 @@
         left: 50%;
         top: 50%;
       }
+
+      #info {
+        position: absolute;
+        top: 50em;
+        width: 100%;
+        text-align: center;
+        display:block;
+        color: white;
+        font-family: "Lucida Console", "Courier New", monospace;
+      }
