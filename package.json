@@ -2,11 +2,12 @@
   "dependencies": {
     "@google-cloud/speech": "^6.1.0",
     "@types/three": "^0.158.3",
+    "axios": "^1.6.8",
     "three": "^0.158.0",
     "ws": "^8.16.0"
   },
   "devDependencies": {
-    "typescript": "^5.3.2",
-    "vite": "^5.0.2"
+    "typescript": "^5.4.3",
+    "vite": "^5.2.7"
   }
 }
