@@ -5,17 +5,17 @@
     . Installieren Sie Typdefinitionen für ws mit @types/ws, falls erforderlich. Beachten Sie, dass @google-cloud/speech bereits Typdefinitionen enthalten sollte.
     . Stellen Sie sicher, dass Sie eine gültige Google Cloud Platform (GCP) Servicekonto-Schlüsseldatei haben und den Pfad in Ihrem Code korrekt angeben.
 */
-import { Server } from 'ws';
-import { SpeechClient } from '@google-cloud/speech';
+import {Server} from 'ws';
+import {SpeechClient} from '@google-cloud/speech';
 
-const server: Server = new Server({ port: 3000 });
-const client: SpeechClient = new SpeechClient({ keyFilename: './src/rezep-412016-44fe00ad3a67.json' });
+const speechToTextUtil: Server = new Server({port: 3000});
+const client: SpeechClient = new SpeechClient({keyFilename: './src/rezep-412016-44fe00ad3a67.json'});
 
-server.on('connection', (ws) => {
+speechToTextUtil.on('connection', (ws) => {
     ws.on('message', async (message: Buffer) => {
         try {
             const request = {
-                audio: { content: message.toString('base64') },
+                audio: {content: message.toString('base64')},
                 config: {
                     encoding: 'LINEAR16' as const,
                     sampleRateHertz: 44100,
