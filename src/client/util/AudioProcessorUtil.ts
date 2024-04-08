@@ -1,3 +1,6 @@
+import { QuestionHandler } from '../questionHandler/QuestionHandler'
+import FaceUtil from './FaceUtil'
+
 const socket: WebSocket = new WebSocket('ws://localhost:3000');
 
 const BUFFER_SIZE: number = 16000 * 10; // Für 10 Sekunden Audio bei 16kHz
@@ -22,6 +25,12 @@ export async function initAudio(): Promise<void> {
             }
         };
         source.connect(processorNode).connect(audioContext.destination);
+
+        // TODO: @Jonas insert needed text
+        let answer = await QuestionHandler.getInstance().getAnswerFromAi("Hello this is a test, fabian baitura 6969");
+        if(answer) {
+            FaceUtil.getInstance().speak(answer);
+        }
 
     } catch (error) {
         console.error('MediaDevices.getUserMedia() error:', error);

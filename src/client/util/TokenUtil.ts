@@ -3,7 +3,6 @@ class TokenUtil {
     private token: string | null = null;
 
     private constructor() {
-
     }
 
     protected async setToken(): Promise<void> {

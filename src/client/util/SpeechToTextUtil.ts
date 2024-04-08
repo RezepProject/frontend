@@ -24,8 +24,9 @@ speechToTextUtil.on('connection', (ws) => {
             };
 
             const [response] = await client.recognize(request);
+            if(!response.results) return null;
             const transcription: string = response.results
-                .map((result) => result.alternatives[0].transcript)
+                .map((result: any) => result.alternatives[0].transcript)
                 .join('\n');
             console.log(`Transcription: ${transcription} ...\n`);
         } catch (error) {

@@ -27,6 +27,14 @@ export default class FaceUtil {
     private listUp: number[] = []
     private listDown: number[] = []
 
+    private static instance: FaceUtil | null = null
+    public static getInstance(): FaceUtil {
+        if (!FaceUtil.instance) {
+            FaceUtil.instance = new FaceUtil();
+        }
+        return FaceUtil.instance;
+    }
+
     constructor() {
         this.renderer.setSize(window.innerWidth, window.innerHeight)
         document.body.appendChild(this.renderer.domElement)
@@ -34,14 +42,15 @@ export default class FaceUtil {
         this.loadModel()
         this.checkStatus()
         this.loadSpeechToText();
+    }
 
-        // todo: rm later
+    public speak(msg: string) {
+        this.speechToText.text = msg;
         window.speechSynthesis.speak(this.speechToText);
     }
 
     private loadSpeechToText = () => {
         this.speechToText.lang = 'en-US';
-        this.speechToText.text = "Hello this is a test, fabian baitura 6969";
 
         this.speechToText.rate = 1;
 
