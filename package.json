@@ -3,8 +3,12 @@
     "@google-cloud/speech": "^6.1.0",
     "@types/three": "^0.158.3",
     "axios": "^1.6.8",
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7",
     "requirejs": "^2.3.6",
     "three": "^0.158.0",
+    "tsc": "^2.0.4",
     "ws": "^8.16.0"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@
         "sourceMap": true,
         "target": "es6",
         "moduleResolution": "node",
-        "outDir": "public/js",
+        "outDir": "public",
         "types": [
             "node",
             "three"
