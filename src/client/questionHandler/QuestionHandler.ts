@@ -1,9 +1,11 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
+import { TokenUtil } from "../util/TokenUtil";
 
 export class QuestionHandler {
     private static instance: QuestionHandler | null = null;
     private sessionId: string | null = null;
     private timer: NodeJS.Timeout | null = null;
+    private lock: boolean = false;
 
     public static getInstance(): QuestionHandler {
         if (!QuestionHandler.instance) {
@@ -14,13 +16,11 @@ export class QuestionHandler {
 
     public async getAnswerFromAi(question: string): Promise<string | undefined> {
 
-        if (this.timer) {
-            clearTimeout(this.timer);
+        if(this.lock) {
+            return undefined;
         }
 
-        this.timer = setTimeout(() => {
-            this.sessionId = null;
-        }, 60000);
+        this.lock = true;
 
         const config: AxiosRequestConfig = {
             headers: {
@@ -30,7 +30,7 @@ export class QuestionHandler {
         };
 
         try {
-            console.log('Sending response');
+
             const response: AxiosResponse<any> = await axios.post('http://localhost:5260/assistantairouter', {
                 question: question,
                 sessionId: this.sessionId
@@ -40,6 +40,7 @@ export class QuestionHandler {
                 this.sessionId = response.data.sessionId;
             }
 
+            this.lock = false;
             return response.data.answer;
         } catch (error) {
             console.error('Error:', error);
@@ -48,4 +49,3 @@ export class QuestionHandler {
         //uhrzeit abchecken alternative
     }
 }
-

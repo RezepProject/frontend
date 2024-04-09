@@ -1,8 +1,9 @@
-class TokenUtil {
+export class TokenUtil {
     private static instance: TokenUtil | null = null;
     private token: string | null = null;
 
     private constructor() {
+
     }
 
     protected async setToken(): Promise<void> {
@@ -34,5 +35,3 @@ class TokenUtil {
         return this.token;
     }
 }
-
-

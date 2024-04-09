@@ -9,7 +9,7 @@ import { Server } from 'ws'
 import { SpeechClient } from '@google-cloud/speech'
 
 const speechToTextUtil: Server = new Server({ port: 3000 })
-const client: SpeechClient = new SpeechClient({ keyFilename: './src/rezep-412016-44fe00ad3a67.json' })
+const client: SpeechClient = new SpeechClient({ keyFilename: './assets/rezep-412016-44fe00ad3a67.json' })
 
 export async function startWebSocket(): Promise<void> {
     speechToTextUtil.on('connection', (ws) => {

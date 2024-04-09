@@ -26,7 +26,7 @@ export async function initAudio(): Promise<void> {
         source.connect(processorNode).connect(audioContext.destination);
 
         // TODO: @Jonas insert needed text
-        let answer = await QuestionHandler.getInstance().getAnswerFromAi("Hello this is a test, fabian baitura 6969");
+        let answer = await QuestionHandler.getInstance().getAnswerFromAi("test");
         if(answer) {
             FaceUtil.getInstance().speak(answer);
         }

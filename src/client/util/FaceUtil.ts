@@ -52,7 +52,7 @@ export default class FaceUtil {
     private loadSpeechToText = () => {
         this.speechToText.lang = 'en-US';
 
-        this.speechToText.rate = 1;
+        this.speechToText.rate = 0.7;
 
         this.speechToText.onstart = (event) => {
             this.isSpeaking = true;
