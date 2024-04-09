@@ -47,6 +47,11 @@ export default class FaceUtil {
     public speak(msg: string) {
         this.speechToText.text = msg;
         window.speechSynthesis.speak(this.speechToText);
+        let infosub = document.getElementById("info");
+
+        if(infosub != null){
+            infosub.innerText = msg;
+        }
     }
 
     private loadSpeechToText = () => {
@@ -60,6 +65,14 @@ export default class FaceUtil {
 
         this.speechToText.onend = (event) => {
             this.isSpeaking = false;
+
+            this.epsilon = 0;
+            this.moveMouth();
+            let infosub = document.getElementById("info");
+
+            if(infosub != null){
+                infosub.innerText = "";
+            }
         }
     }
 
