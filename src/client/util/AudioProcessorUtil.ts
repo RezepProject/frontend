@@ -1,13 +1,12 @@
 import { QuestionHandler } from '../questionHandler/QuestionHandler'
 import FaceUtil from './FaceUtil'
 
-const socket: WebSocket = new WebSocket('ws://localhost:3000');
-
 const BUFFER_SIZE: number = 16000 * 10; // Für 10 Sekunden Audio bei 16kHz
 let audioBuffer: number[] = [];
 
 export async function initAudio(): Promise<void> {
     try {
+        const socket: WebSocket = new WebSocket('ws://localhost:3000');
         const stream: MediaStream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
         const audioContext: AudioContext = new AudioContext();
         await audioContext.audioWorklet.addModule('AudioWorkletProcessor.js');
