@@ -1,9 +1,11 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
+import { TokenUtil } from "../util/TokenUtil";
 
-class QuestionHandler {
+export class QuestionHandler {
     private static instance: QuestionHandler | null = null;
     private sessionId: string | null = null;
     private timer: NodeJS.Timeout | null = null;
+    private lock: boolean = false;
 
     public static getInstance(): QuestionHandler {
         if (!QuestionHandler.instance) {
@@ -14,23 +16,22 @@ class QuestionHandler {
 
     public async getAnswerFromAi(question: string): Promise<string | undefined> {
 
-        if (this.timer) {
-            clearTimeout(this.timer);
+        if(this.lock) {
+            return undefined;
         }
 
-        this.timer = setTimeout(() => {
-            this.sessionId = null;
-        }, 60000);
-        
+        this.lock = true;
+
         const config: AxiosRequestConfig = {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${(await TokenUtils.getInstance()).getToken()}`
+                'Authorization': `Bearer ${(await TokenUtil.getInstance()).getToken()}`
             }
         };
 
         try {
-            const response: AxiosResponse<any> = await axios.post('urlhere', {
+
+            const response: AxiosResponse<any> = await axios.post('http://localhost:5260/assistantairouter', {
                 question: question,
                 sessionId: this.sessionId
             }, config);
@@ -39,8 +40,9 @@ class QuestionHandler {
                 this.sessionId = response.data.sessionId;
             }
 
+            this.lock = false;
             return response.data.answer;
-        } catch(error) {
+        } catch (error) {
             console.error('Error:', error);
             return undefined;
         }

@@ -1,15 +1,15 @@
-
-//FDF
-const socket: WebSocket = new WebSocket('ws://localhost:3000');
+import { QuestionHandler } from '../questionHandler/QuestionHandler'
+import FaceUtil from './FaceUtil'
 
 const BUFFER_SIZE: number = 16000 * 10; // Für 10 Sekunden Audio bei 16kHz
 let audioBuffer: number[] = [];
 
-async function initAudio(): Promise<void> {
+export async function initAudio(): Promise<void> {
     try {
-        const stream: MediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        const socket: WebSocket = new WebSocket('ws://localhost:3000');
+        const stream: MediaStream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
         const audioContext: AudioContext = new AudioContext();
-        await audioContext.audioWorklet.addModule('audioProcessor.js');
+        await audioContext.audioWorklet.addModule('AudioWorkletProcessor.js');
 
         const source: MediaStreamAudioSourceNode = audioContext.createMediaStreamSource(stream);
         const processorNode: AudioWorkletNode = new AudioWorkletNode(audioContext, 'audio-processor');
@@ -24,6 +24,13 @@ async function initAudio(): Promise<void> {
             }
         };
         source.connect(processorNode).connect(audioContext.destination);
+
+        // TODO: @Jonas insert needed text
+        let answer = await QuestionHandler.getInstance().getAnswerFromAi("test");
+        if(answer) {
+            FaceUtil.getInstance().speak(answer);
+        }
+
     } catch (error) {
         console.error('MediaDevices.getUserMedia() error:', error);
     }
@@ -51,7 +58,7 @@ function convertToWavFormat(samples: number[]): Blob {
     // Schreiben der Samples
     floatTo16BitPCM(view, 44, samples);
 
-    return new Blob([view], { type: 'audio/wav' });
+    return new Blob([view], {type: 'audio/wav'});
 }
 
 function writeString(view: DataView, offset: number, string: string): void {
@@ -67,4 +74,3 @@ function floatTo16BitPCM(view: DataView, offset: number, input: number[]): void 
     }
 }
 
-initAudio();
