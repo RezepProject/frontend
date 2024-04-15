@@ -15,7 +15,7 @@
 
    ![alt text](img/image-3.png)
 
-4. **Limit Branch Lifespan**: Delete branches once merged or no longer needed to avoid clutter. If a branch is no longer needed, it must be marked with "remove branch" or "rm branch" in the title to indicate that it can be safely deleted.
+4. **Limit Branch Lifespan**: Delete branches once merged or no longer needed to avoid clutter.
 
 5. **Branch from Up-to-Date Main**: Always create branches from an updated main branch to prevent conflicts and ensure your changes are based on the latest codebase.
 
