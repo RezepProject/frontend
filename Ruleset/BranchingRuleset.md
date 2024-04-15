@@ -2,7 +2,7 @@
 
 1. **Branches Origin**: Branches should only be created from tasks or user stories in our GitHub Kanban board to ensure alignment with project objectives and priorities.
 
-   ![alt](/img/image-1.png)
+   ![alt](img/image-1.png)
 
 2. **Use Descriptive Names**: Name branches clearly and descriptively, indicating their purpose or feature.
 
