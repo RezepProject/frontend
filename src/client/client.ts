@@ -1,16 +1,15 @@
-import {initAudio} from "./util/AudioProcessorUtil";
-import FaceUtil from "./util/FaceUtil";
-import { startWebSocket } from './util/SpeechToTextUtil'
-import { QuestionHandler } from './questionHandler/QuestionHandler'
+import FaceUtil from './util/FaceUtil'
+import { CamaraUtil } from './util/CamaraUtil'
 
 document.addEventListener("DOMContentLoaded", async () => {
     // TODO: Comment in the following line to start the WebSocket server
     //await startWebSocket();
     //await initAudio();
     FaceUtil.getInstance();
+    await CamaraUtil.getInstance().captureAndSendFrame()
 
-    let answer = await QuestionHandler.getInstance().getAnswerFromAi("test");
+    /*let answer = await QuestionHandler.getInstance().getAnswerFromAi("test");
     if(answer) {
         FaceUtil.getInstance().speak(answer);
-    }
+    }*/
 })

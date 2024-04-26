@@ -1,6 +1,3 @@
-import { QuestionHandler } from '../questionHandler/QuestionHandler'
-import FaceUtil from './FaceUtil'
-
 const BUFFER_SIZE: number = 16000 * 10; // Für 10 Sekunden Audio bei 16kHz
 let audioBuffer: number[] = [];
 
@@ -24,13 +21,13 @@ export async function initAudio(): Promise<void> {
             }
         };
         source.connect(processorNode).connect(audioContext.destination);
-
-        // TODO: @Jonas insert needed text
+        /*
         let answer = await QuestionHandler.getInstance().getAnswerFromAi("test");
         if(answer) {
             FaceUtil.getInstance().speak(answer);
         }
-
+        */
+         
     } catch (error) {
         console.error('MediaDevices.getUserMedia() error:', error);
     }
