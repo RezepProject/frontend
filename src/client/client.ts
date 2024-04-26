@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     //await startWebSocket();
     //await initAudio();
     FaceUtil.getInstance();
-    await CamaraUtil.getInstance().initCamara()
+    await CamaraUtil.getInstance().captureAndSendFrame()
 
     /*let answer = await QuestionHandler.getInstance().getAnswerFromAi("test");
     if(answer) {

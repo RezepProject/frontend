@@ -1,13 +1,11 @@
-import io from 'socket.io-client'
+import { TokenUtil } from './TokenUtil'
 
 export class CamaraUtil {
     private static instance: CamaraUtil | null = null
-    private wsConnection: WebSocket | null = null
-    private myPeerConnection: RTCPeerConnection | null = null
-    private webcamStream: MediaStream | null = null
 
     public static getInstance(): CamaraUtil {
         if (!CamaraUtil.instance) {
+            TokenUtil.getInstance()
             CamaraUtil.instance = new CamaraUtil()
         }
         return CamaraUtil.instance
@@ -17,37 +15,50 @@ export class CamaraUtil {
         // Singleton
     }
 
-    public async initCamara(): Promise<void> {
+    public async captureAndSendFrame() {
+        const route = 'http://localhost:5260/streaming'
         try {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(stream => {
-                    const videoElement = document.createElement('video')
-                    videoElement.srcObject = stream
-                    videoElement.autoplay = true
+            const video = document.createElement('video')
+            video.width = 320
+            video.height = 240
 
-                    document.body.appendChild(videoElement)
+            video.srcObject = await navigator.mediaDevices.getUserMedia({ video: true })
+            await video.play()
 
-                    const socket = io('/')
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
 
-                    const canvas = document.createElement('canvas')
-                    const context = canvas.getContext('2d')
+            setInterval(async () => {
+                canvas.width = video.videoWidth
+                canvas.height = video.videoHeight
 
-                    videoElement.addEventListener('play', () => {
-                        setInterval(() => {
-                            canvas.width = videoElement.videoWidth
-                            canvas.height = videoElement.videoHeight
-                            context?.drawImage(videoElement, 0, 0)
-                            const imageData = canvas.toDataURL('image/jpeg', 0.5) // Adjust quality as needed
-                            socket.emit('sendFrame', imageData)
-                        }, 100) // Send frame every 100 milliseconds (adjust for frame rate)
-                    })
+                ctx?.drawImage(video, 0, 0, canvas.width, canvas.height)
 
+                const base64Image = canvas.toDataURL('image/jpeg', 0.8)
+
+                const frameObject = {
+                    Data: base64Image.split(',')[1],
+                }
+
+                const response = await fetch(route, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + (await TokenUtil.getInstance()).getToken(),
+                    },
+                    body: JSON.stringify(frameObject),
                 })
-                .catch(error => {
-                    console.error('Error accessing camera:', error)
-                })
+
+                if (!response.ok) {
+                    throw new Error(`Error sending frame: ${response.statusText}`)
+                }
+
+                const faces = await response.json()
+                console.log('Faces detected:', faces)
+            }, 100); // Capture every 100ms
         } catch (error) {
-            console.error('MediaDevices.getUserMedia() error:', error)
+            console.error('Error accessing webcam:', error)
         }
     }
+
 }
