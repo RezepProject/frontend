@@ -135,15 +135,13 @@ export default class FaceUtil {
     }
 
     private moveHead(){
-        // @ts-ignore
-        if(this.skeleton.bones[2].rotation.y != this.targetX && this.turningSpeed < Math.abs(this.skeleton.bones[2].rotation.y - this.targetX)){
-            // @ts-ignore
-            if(this.skeleton.bones[2].rotation.y > this.targetX){
-                // @ts-ignore
-                this.skeleton.bones[2].rotation.y -= this.turningSpeed;
-            }else{
-                // @ts-ignore
-                this.skeleton.bones[2].rotation.y += this.turningSpeed;
+        if(this.skeleton != undefined) {
+            if (this.skeleton.bones[2].rotation.y != this.targetX && this.turningSpeed < Math.abs(this.skeleton.bones[2].rotation.y - this.targetX)) {
+                if (this.skeleton.bones[2].rotation.y > this.targetX) {
+                    this.skeleton.bones[2].rotation.y -= this.turningSpeed;
+                } else {
+                    this.skeleton.bones[2].rotation.y += this.turningSpeed;
+                }
             }
         }
     }
@@ -199,8 +197,6 @@ export default class FaceUtil {
 
     public lookAtMe(x : number | undefined, y : number | undefined){
         if(x != undefined && y != undefined){
-            console.log(`x: ${x}, y: ${y}`);
-            //@ts-ignore
             this.targetX = this.map(x, 0, 500, -0.6, 0.6);
         }
     }
