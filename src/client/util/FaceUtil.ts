@@ -41,17 +41,30 @@ export default class FaceUtil {
 
         this.loadModel()
         this.checkStatus()
-        this.loadSpeechToText();
     }
 
-    public speak(msg: string) {
-        this.speechToText.text = msg;
-        window.speechSynthesis.speak(this.speechToText);
-        let infosub = document.getElementById("info");
+    public async speak(msg: string) {
+        if(!this.isSpeaking){
+            this.isSpeaking = true;
 
-        if(infosub != null){
-            infosub.innerText = msg;
-        }
+            this.speechToText = new SpeechSynthesisUtterance();
+            console.log("SpeechSynthesisUtterance");
+
+            this.loadSpeechToText();
+            console.log("load speechToText");
+
+            this.speechToText.text = msg;
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(this.speechToText);
+
+            let infosub = document.getElementById("info");
+            this.isSpeaking = true;
+
+            if(infosub != null){
+                infosub.innerText = msg;
+            }
+        } else console.error("Currently speaking");
     }
 
     private loadSpeechToText = () => {
@@ -119,14 +132,13 @@ export default class FaceUtil {
     }
 
     private animate = () => {
-        requestAnimationFrame(this.animate)
-
         if (this.isSpeaking) {
-            this.moveMouth()
+            this.moveMouth();
         }
 
-        this.controls.update()
-        this.render()
+        this.controls.update();
+        this.render();
+        requestAnimationFrame(this.animate);
     }
 
     private render() {
