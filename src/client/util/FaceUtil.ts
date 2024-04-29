@@ -22,6 +22,9 @@ export default class FaceUtil {
 
     private epsilon = 0
 
+    private targetX = 0;
+    private turningSpeed = 0.005;
+
     private speechToText = new SpeechSynthesisUtterance();
 
     private listUp: number[] = []
@@ -125,8 +128,24 @@ export default class FaceUtil {
             this.moveMouth()
         }
 
+        this.moveHead();
+
         this.controls.update()
         this.render()
+    }
+
+    private moveHead(){
+        // @ts-ignore
+        if(this.skeleton.bones[2].rotation.y != this.targetX && this.turningSpeed < Math.abs(this.skeleton.bones[2].rotation.y - this.targetX)){
+            // @ts-ignore
+            if(this.skeleton.bones[2].rotation.y > this.targetX){
+                // @ts-ignore
+                this.skeleton.bones[2].rotation.y -= this.turningSpeed;
+            }else{
+                // @ts-ignore
+                this.skeleton.bones[2].rotation.y += this.turningSpeed;
+            }
+        }
     }
 
     private render() {
@@ -176,5 +195,17 @@ export default class FaceUtil {
             this.setDefaultMouthPos()
             this.animate()
         }
+    }
+
+    public lookAtMe(x : number | undefined, y : number | undefined){
+        if(x != undefined && y != undefined){
+            console.log(`x: ${x}, y: ${y}`);
+            //@ts-ignore
+            this.targetX = this.map(x, 0, 500, -0.6, 0.6);
+        }
+    }
+
+    private map(value : number, istart : number, istop : number, ostart : number, ostop : number) : number {
+    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
     }
 }
