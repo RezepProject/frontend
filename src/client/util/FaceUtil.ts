@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import html2canvas from 'html2canvas';
 
 export default class FaceUtil {
     private readonly scene = new THREE.Scene()

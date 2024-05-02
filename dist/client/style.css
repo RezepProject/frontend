@@ -1,0 +1,79 @@
+.fixed-div {
+    position: fixed;
+    top: 0;
+    right: 0; /* Position on the right side */
+    width: 30%; /* Adjust width as needed */
+    height: 100%; /* Full height of the screen */
+    background-color: #fff; /* White background */
+    z-index: 9999; /* Ensure it's above other content */
+    padding: 20px; /* Add padding as needed */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.main-content {
+    margin-right: 200px; /* Adjust margin to account for fixed div width */
+    padding: 20px; /* Add padding as needed */
+}
+
+.chat-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif; /* Apply Roboto font */
+    overflow: hidden;
+}
+
+/* Chat message styles */
+.message {
+    margin-bottom: 10px;
+    clear: both;
+}
+
+/* Sender message styles */
+.sender {
+    float: right;
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Receiver message styles */
+.receiver {
+    float: left;
+    background-color: #f1f0f0;
+}
+
+/* Message content styles */
+.message-content {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Typing animation */
+.typing-animation {
+    width: 10px;
+    height: 20px;
+    background-color: #fff;
+    animation: typing 1s infinite;
+}
+
+@keyframes typing {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Clearfix to prevent floating elements from overlapping */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
