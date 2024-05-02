@@ -30,6 +30,7 @@
 .message {
     margin-bottom: 10px;
     clear: both;
+    border-radius: 10px;
 }
 
 /* Sender message styles */
@@ -49,6 +50,11 @@
 .message-content {
     padding: 10px;
     border-radius: 5px;
+}
+
+p {
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 /* Typing animation */
