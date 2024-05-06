@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import html2canvas from 'html2canvas';
 
 export default class FaceUtil {
     private readonly scene = new THREE.Scene()
@@ -39,11 +40,11 @@ export default class FaceUtil {
     }
 
     constructor() {
-        this.renderer.setSize(window.innerWidth, window.innerHeight)
-        document.body.appendChild(this.renderer.domElement)
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(this.renderer.domElement);
 
-        this.loadModel()
-        this.checkStatus()
+        this.loadModel();
+        this.checkStatus();
         this.loadSpeechToText();
     }
 
@@ -84,22 +85,22 @@ export default class FaceUtil {
         this.loader.load('/assets/boner.glb', (gltf) => {
             let mixer
 
-            this.mesh = gltf.scene
+            this.mesh = gltf.scene;
             //this.mesh.children[0].material = new THREE.MeshLambertMaterial();
-            this.mesh.position.copy(this.camera.position)
-            this.mesh.rotation.copy(this.camera.rotation)
-            this.mesh.translateZ(-0.35)
-            this.mesh.translateY(-1.3)
-            this.mesh.updateMatrix()
+            this.mesh.position.copy(this.camera.position);
+            this.mesh.rotation.copy(this.camera.rotation);
+            this.mesh.translateZ(-0.35);
+            this.mesh.translateY(-1.3);
+            this.mesh.updateMatrix();
 
-            this.scene.add(this.mesh)
+            this.scene.add(this.mesh);
 
-            this.skeleton = new THREE.SkeletonHelper(this.mesh)
+            this.skeleton = new THREE.SkeletonHelper(this.mesh);
 
             this.skeleton.visible = false
             this.scene.add(this.skeleton)
 
-            const xAxis = new THREE.Vector3(1, 0, 0)
+            const xAxis = new THREE.Vector3(1, 0, 0);
 
             // TODO: rm?
             const qInitial = new THREE.Quaternion().setFromAxisAngle(xAxis, 0)
@@ -116,16 +117,16 @@ export default class FaceUtil {
             clipAction.play()
         }, undefined, (error) => {
             console.error(error)
-        })
+        });
 
-        this.animate = this.animate.bind(this)
+        this.animate = this.animate.bind(this);
     }
 
     private animate = () => {
-        requestAnimationFrame(this.animate)
+        requestAnimationFrame(this.animate);
 
         if (this.isSpeaking) {
-            this.moveMouth()
+            this.moveMouth();
         }
 
         this.moveHead();
@@ -147,7 +148,7 @@ export default class FaceUtil {
     }
 
     private render() {
-        this.renderer.render(this.scene, this.camera)
+        this.renderer.render(this.scene, this.camera);
     }
 
     private moveMouth = () => {
@@ -175,14 +176,14 @@ export default class FaceUtil {
         this.listUp = []
         this.listDown = []
         for (let i = 25; i < 33; i++) {
-            this.listUp.push(this.skeleton.bones[i].position.z)
+            this.listUp.push(this.skeleton.bones[i].position.z);
         }
         for (let i = 20; i < 23; i++) {
-            this.listDown.push(this.skeleton.bones[i].position.z)
+            this.listDown.push(this.skeleton.bones[i].position.z);
         }
 
         for (let i = 45; i < 47; i++) {
-            this.listUp.push(this.skeleton.bones[i].position.z)
+            this.listUp.push(this.skeleton.bones[i].position.z);
         }
     }
 

@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Rezep</title>
+        <link rel="stylesheet" href="./style.css">
         <style>
             body {
                 overflow: hidden;
@@ -20,9 +21,14 @@
             }
         </style>
     </head>
-
     <body>
-        <script type="module" src="bundle.js"></script>
-        <div class="info" id="info"></div>
+    <div class="fixed-div">
+        <div class="chat-container">
+            <div class="chat" id="chatbox">
+            </div>
+        </div>
+    </div>
+    <script type="module" src="bundle.js"></script>
+    <div class="info" id="info"></div>
     </body>
 </html>
