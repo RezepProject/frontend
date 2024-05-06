@@ -1,4 +1,5 @@
 import { TokenUtil } from './TokenUtil'
+import FaceUtil from './FaceUtil'
 
 export class CamaraUtil {
     private static instance: CamaraUtil | null = null
@@ -55,6 +56,9 @@ export class CamaraUtil {
 
                 const faces = await response.json()
                 console.log('Faces detected:', faces)
+                if(faces.length >= 1){
+                    FaceUtil.getInstance().lookAtMe(faces[0].x, faces[0].y);
+                }
             }, 100); // Capture every 100ms
         } catch (error) {
             console.error('Error accessing webcam:', error)
