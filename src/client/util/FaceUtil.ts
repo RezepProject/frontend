@@ -54,14 +54,32 @@ export default class FaceUtil {
         this.speechToText.text = msg;
         window.speechSynthesis.speak(this.speechToText);
         let infosub = document.getElementById("info");
+      
+        if(!this.isSpeaking){
+            this.isSpeaking = true;
 
-        if(infosub != null){
-            infosub.innerText = msg;
-        }
+            this.speechToText = new SpeechSynthesisUtterance();
+            console.log("SpeechSynthesisUtterance");
+
+            this.loadSpeechToText();
+            console.log("load speechToText");
+
+            this.speechToText.text = msg;
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(this.speechToText);
+
+            let infosub = document.getElementById("info");
+            this.isSpeaking = true;
+
+            if(infosub != null){
+                infosub.innerText = msg;
+            }
+        } else console.error("Currently speaking");
     }
 
     private loadSpeechToText = () => {
-        this.speechToText.lang = 'en-US';
+        this.speechToText.lang = 'de-DE';
 
         this.speechToText.rate = 0.7;
 
@@ -125,8 +143,6 @@ export default class FaceUtil {
     }
 
     private animate = () => {
-        requestAnimationFrame(this.animate);
-
         if (this.isSpeaking) {
             this.moveMouth();
         }
@@ -135,6 +151,7 @@ export default class FaceUtil {
 
         this.controls.update()
         this.render()
+        requestAnimationFrame(this.animate);
     }
 
     private moveHead(){
@@ -206,5 +223,9 @@ export default class FaceUtil {
 
     private map(value : number, istart : number, istop : number, ostart : number, ostop : number) : number {
     return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+    }
+
+    public getIsSpeaking(): boolean {
+        return this.isSpeaking;
     }
 }
