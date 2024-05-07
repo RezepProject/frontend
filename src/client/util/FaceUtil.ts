@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import html2canvas from 'html2canvas';
+import { chatMessages } from './chatUtil'
 
 export default class FaceUtil {
     private readonly scene = new THREE.Scene()
@@ -48,7 +49,12 @@ export default class FaceUtil {
         this.loadSpeechToText();
     }
 
-    public async speak(msg: string) {
+    public speak(msg: string) {
+        chatMessages.push({ messageContent: msg, from: "receiver"})
+        this.speechToText.text = msg;
+        window.speechSynthesis.speak(this.speechToText);
+        let infosub = document.getElementById("info");
+      
         if(!this.isSpeaking){
             this.isSpeaking = true;
 
@@ -83,6 +89,7 @@ export default class FaceUtil {
 
         this.speechToText.onend = (event) => {
             this.isSpeaking = false;
+            chatMessages.push({ messageContent: "isTyping", from: "receiver" });
 
             this.epsilon = 0;
             this.moveMouth();
@@ -211,7 +218,7 @@ export default class FaceUtil {
 
     public lookAtMe(x : number | undefined, y : number | undefined){
         if(x != undefined && y != undefined){
-            this.targetX = this.map(x, 0, 500, -0.6, 0.6);
+            this.targetX = this.map(x, 0, 500, 0.3, -0.3);
         }
     }
 

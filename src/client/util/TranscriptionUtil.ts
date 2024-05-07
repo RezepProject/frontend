@@ -2,6 +2,7 @@ import { TokenUtil } from './TokenUtil'
 import { QuestionHandler } from '../questionHandler/QuestionHandler'
 import FaceUtil from './FaceUtil'
 import { BehaviorSubject  } from 'rxjs';
+import { chatMessages } from './chatUtil'
 
 let hailmarry : BehaviorSubject <string> = new BehaviorSubject<string>("");
 export { hailmarry };
@@ -32,6 +33,7 @@ export async function startSpeechRecognition(language: string ) {
             blocked = true;
 
             console.log("Transcript:", transcriptToAdd);
+            chatMessages.push({ messageContent: transcriptToAdd, from: "sender"})
             transcript += transcriptToAdd;
 
             QuestionHandler.getInstance().getAnswerFromAi(transcriptToAdd).then((answer) => {

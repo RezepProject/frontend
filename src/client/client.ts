@@ -5,6 +5,12 @@ import { QuestionHandler } from './questionHandler/QuestionHandler'
 import { startSpeechRecognition } from './util/TranscriptionUtil'
 import { hailmarry } from './util/TranscriptionUtil'
 
+
+document.onclick = () => {
+    FaceUtil.getInstance().speak("hello" + Math.random());
+}
+
+
 document.addEventListener("DOMContentLoaded", async () => {
     FaceUtil.getInstance();
     await CamaraUtil.getInstance().captureAndSendFrame()
@@ -13,8 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if(answer) {
         FaceUtil.getInstance().speak(answer);
     }*/
-    chatMessages.push({ messageContent: "hello, how can i help you?", from: "receiver"})
-    chatMessages.push({ messageContent: "isTyping", from: "sender"})
 
     hailmarry.subscribe(string => {
         if(string !== ""){
@@ -24,6 +28,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     await startSpeechRecognition("de-DE");
 })
 
-document.onclick = () => {
-    FaceUtil.getInstance().speak("hello");
-}
