@@ -4,16 +4,33 @@ export interface chatMessage {
 }
 
 class MessageArray {
-    private items : chatMessage[] = [];
+    private items : chatMessage[];
     public maxMessages = 2;
+
+    constructor() {
+        this.items = [];
+        this.push({ messageContent: "isTyping", from: "sender" });
+    }
 
     push(item : chatMessage){
         this.items.push(item);
         let newItems = this.items;
         this.items = [];
+        let incr: boolean = false;
+
+        if(newItems.length >= 2 && newItems[newItems.length - 2].messageContent === "isTyping"){
+            this.maxMessages += 1;
+            incr = true;
+        }
 
         for(let i = Math.max(0, newItems.length - this.maxMessages); i < newItems.length; i++) {
-            this.items.push(newItems[i]);
+            if(item.messageContent === "isTyping" || newItems[i].messageContent !== "isTyping"){
+                this.items.push(newItems[i]);
+            }
+        }
+
+        if(incr){
+            this.maxMessages -= 1;
         }
 
         this.updateMessages();

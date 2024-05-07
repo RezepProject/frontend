@@ -89,6 +89,7 @@ export default class FaceUtil {
 
         this.speechToText.onend = (event) => {
             this.isSpeaking = false;
+            chatMessages.push({ messageContent: "isTyping", from: "receiver" });
 
             this.epsilon = 0;
             this.moveMouth();
