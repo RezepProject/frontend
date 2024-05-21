@@ -197,7 +197,7 @@ export default class FaceUtil {
 
     public lookAtMe(x : number | undefined, y : number | undefined){
         if(x != undefined && y != undefined){
-            this.targetX = this.map(x, 0, 500, -0.6, 0.6);
+            this.targetX = this.map(x, 0, 500, 0.3, -0.3);
         }
     }
 
