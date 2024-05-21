@@ -49,8 +49,9 @@ export default class FaceUtil {
         this.loadSpeechToText();
     }
 
-    public speak(msg: string) {
-        chatMessages.push({ messageContent: msg, from: "receiver"})
+    public speak(msg: string, from : "receiver" | "sender") {
+        chatMessages.push({ messageContent: msg, from: from})
+
         this.speechToText.text = msg;
         window.speechSynthesis.speak(this.speechToText);
         let infosub = document.getElementById("info");
@@ -89,7 +90,12 @@ export default class FaceUtil {
 
         this.speechToText.onend = (event) => {
             this.isSpeaking = false;
-            chatMessages.push({ messageContent: "isTyping", from: "receiver" });
+            if(chatMessages.getLast() === "receiver"){
+                chatMessages.push({ messageContent: "isTyping", from: "sender" });
+            }else{
+                chatMessages.push({ messageContent: "isTyping", from: "receiver" });
+            }
+
 
             this.epsilon = 0;
             this.moveMouth();

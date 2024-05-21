@@ -6,11 +6,6 @@ import { startSpeechRecognition } from './util/TranscriptionUtil'
 import { hailmarry } from './util/TranscriptionUtil'
 
 
-document.onclick = () => {
-    FaceUtil.getInstance().speak("hello" + Math.random());
-}
-
-
 document.addEventListener("DOMContentLoaded", async () => {
     FaceUtil.getInstance();
     await CamaraUtil.getInstance().captureAndSendFrame()
@@ -22,9 +17,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     hailmarry.subscribe(string => {
         if(string !== ""){
-            FaceUtil.getInstance().speak(string);
+            FaceUtil.getInstance().speak(string, 'receiver');
         }
     })
     await startSpeechRecognition("de-DE");
 })
+
+document.onclick = () => {
+    FaceUtil.getInstance().speak("hallo", "receiver");
+}
 

@@ -5,11 +5,15 @@ export interface chatMessage {
 
 class MessageArray {
     private items : chatMessage[];
-    public maxMessages = 2;
+    public maxMessages = 5;
 
     constructor() {
         this.items = [];
-        this.push({ messageContent: "isTyping", from: "sender" });
+        this.push({ messageContent: "isTyping", from: "receiver" });
+    }
+
+    getLast() : string{
+        return this.items[this.items.length - 1].from;
     }
 
     push(item : chatMessage){

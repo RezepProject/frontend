@@ -34,6 +34,7 @@ export async function startSpeechRecognition(language: string ) {
 
             console.log("Transcript:", transcriptToAdd);
             chatMessages.push({ messageContent: transcriptToAdd, from: "sender"})
+            chatMessages.push({ messageContent: "isTyping", from: "receiver"});
             transcript += transcriptToAdd;
 
             QuestionHandler.getInstance().getAnswerFromAi(transcriptToAdd).then((answer) => {
