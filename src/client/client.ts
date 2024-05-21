@@ -14,4 +14,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 })
 
 document.onclick = () => {
+    FaceUtil.getInstance().speak("hello");
 }
