@@ -3,7 +3,6 @@ import { chatMessages } from './util/chatUtil'
 import FaceUtil from "./util/FaceUtil";
 import { QuestionHandler } from './questionHandler/QuestionHandler'
 import { startSpeechRecognition } from './util/TranscriptionUtil'
-import { hailmarry } from './util/TranscriptionUtil'
 
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -14,12 +13,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if(answer) {
         FaceUtil.getInstance().speak(answer);
     }*/
-
-    hailmarry.subscribe(string => {
-        if(string !== ""){
-            FaceUtil.getInstance().speak(string, 'receiver');
-        }
-    })
     await startSpeechRecognition("de-DE");
 })
 
