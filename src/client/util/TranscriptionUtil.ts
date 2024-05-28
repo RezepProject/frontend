@@ -1,11 +1,7 @@
 import { TokenUtil } from './TokenUtil'
 import { QuestionHandler } from '../questionHandler/QuestionHandler'
 import FaceUtil from './FaceUtil'
-import { BehaviorSubject  } from 'rxjs';
 import { chatMessages } from './chatUtil'
-
-let hailmarry : BehaviorSubject <string> = new BehaviorSubject<string>("");
-export { hailmarry };
 
 export async function startSpeechRecognition(language: string ) {
     if (!("webkitSpeechRecognition" in window)) {
@@ -37,14 +33,14 @@ export async function startSpeechRecognition(language: string ) {
             chatMessages.push({ messageContent: "isTyping", from: "receiver"});
             transcript += transcriptToAdd;
 
-            QuestionHandler.getInstance().getAnswerFromAi(transcriptToAdd).then((answer) => {
-                console.log(answer);
-                if (answer ) {
-                    hailmarry.next(answer);
+
+            QuestionHandler.getInstance().getAnswerFromAi(transcript).then((answer) => {
+                if (answer) {
                     blocked = false;
-                    //FaceUtil.getInstance().speak(answer);
+                    FaceUtil.getInstance().speak(answer, 'receiver');
                 }
             });
+
             lastSpeechRecognitionResult = event.results[0];
         }
     };
@@ -70,11 +66,9 @@ export async function startSpeechRecognition(language: string ) {
       await new Promise((resolve) => {
         recognition.onend = resolve;
       });
-
       if (!recognition.isListening) {
         break;
       }
-
       await new Promise((resolve) => setTimeout(resolve, 100));
     }*/
 
