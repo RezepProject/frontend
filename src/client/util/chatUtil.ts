@@ -1,10 +1,10 @@
-export interface chatMessage {
+export interface ChatMessage {
     messageContent : string | "isTyping",
     from : "sender" | "receiver"
 }
 
 class MessageArray {
-    private items : chatMessage[];
+    private items : ChatMessage[];
     public maxMessages = 5;
 
     constructor() {
@@ -16,7 +16,7 @@ class MessageArray {
         return this.items[this.items.length - 1].from;
     }
 
-    push(item : chatMessage){
+    push(item : ChatMessage){
         this.items.push(item);
         let newItems = this.items;
         this.items = [];
@@ -49,7 +49,7 @@ class MessageArray {
                     `<div class="message ${item.from}">
                     <p class="typing-animation"></p>
                     </div>`;
-            }else{
+            }else {
                 innerHTML +=
                     `<div class="message ${item.from}">
                     <div class="message-content">
