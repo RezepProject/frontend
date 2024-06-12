@@ -22,6 +22,9 @@ export default class FaceUtil {
 
     private isSpeaking = false
 
+    public speakingLanguage = "de-DE";
+    public talkingSpeed = 0.7;
+
     private epsilon = 0
 
     private targetX = 0;
@@ -80,9 +83,9 @@ export default class FaceUtil {
     }
 
     private loadSpeechToText = () => {
-        this.speechToText.lang = 'de-DE';
+        this.speechToText.lang = this.speakingLanguage;
 
-        this.speechToText.rate = 0.7;
+        this.speechToText.rate = this.talkingSpeed;
 
         this.speechToText.onstart = (event) => {
             this.isSpeaking = true;
