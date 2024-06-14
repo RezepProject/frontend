@@ -101,7 +101,6 @@ export default class FaceUtil {
 
 
             this.epsilon = 0;
-            this.moveMouth();
             let infosub = document.getElementById("info");
 
             if(infosub != null){
@@ -133,18 +132,7 @@ export default class FaceUtil {
             const xAxis = new THREE.Vector3(1, 0, 0);
 
             // TODO: rm?
-            const qInitial = new THREE.Quaternion().setFromAxisAngle(xAxis, 0)
-            const qFinal = new THREE.Quaternion().setFromAxisAngle(xAxis, Math.PI)
-            const quaternionKF = new THREE.QuaternionKeyframeTrack(this.skeleton.bones[42].name + '.quaternion',
-                [0, 1, 2],
-                [qInitial.x, qInitial.y, qInitial.z, qInitial.w, qFinal.x, qFinal.y, qFinal.z, qFinal.w, qInitial.x,
-                    qInitial.y, qInitial.z, qInitial.w])
-            const clip = new THREE.AnimationClip('Action', 3, [quaternionKF])
 
-            mixer = new THREE.AnimationMixer(this.mesh)
-
-            const clipAction = mixer.clipAction(clip)
-            clipAction.play()
         }, undefined, (error) => {
             console.error(error)
         });
@@ -153,9 +141,6 @@ export default class FaceUtil {
     }
 
     private animate = () => {
-        if (this.isSpeaking) {
-            this.moveMouth();
-        }
 
         this.moveHead();
 
@@ -180,7 +165,7 @@ export default class FaceUtil {
         this.renderer.render(this.scene, this.camera);
     }
 
-    private moveMouth = () => {
+    /* private moveMouth = () => {
         if (!this.skeleton) return
 
         for (let i = 0; i < 8; i++) {
@@ -215,12 +200,11 @@ export default class FaceUtil {
             this.listUp.push(this.skeleton.bones[i].position.z);
         }
     }
-
+*/
     private checkStatus = () => {
         if (this.mesh == undefined) {
             window.setTimeout(this.checkStatus, 100)
         } else {
-            this.setDefaultMouthPos()
             this.animate()
         }
     }
