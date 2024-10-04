@@ -1,20 +1,20 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import { TokenUtil } from "../util/TokenUtil";
 
-export class QuestionHandler {
-    private static instance: QuestionHandler | null = null;
+export class SettingsHandler {
+    private static instance: SettingsHandler | null = null;
     private sessionId: string | null = null;
     private timer: NodeJS.Timeout | null = null;
     private lock: boolean = false;
 
-    public static getInstance(): QuestionHandler {
-        if (!QuestionHandler.instance) {
-            QuestionHandler.instance = new QuestionHandler();
+    public static getInstance(): SettingsHandler {
+        if (!SettingsHandler.instance) {
+            SettingsHandler.instance = new SettingsHandler();
         }
-        return QuestionHandler.instance;
+        return SettingsHandler.instance;
     }
 
-    public async getAnswerFromAi(question: string): Promise<string | undefined> {
+    public async getSettings(): Promise<any | undefined> {
 
         if(this.lock) {
             return undefined;
@@ -30,10 +30,7 @@ export class QuestionHandler {
         };
 
         try {
-            const response: AxiosResponse<any> = await axios.post('http://localhost:5260/assistantairouter', {
-                question: question,
-                sessionId: this.sessionId
-            }, config);
+            const response: AxiosResponse<any> = await axios.get('http://localhost:5260/settings', config);
 
             console.log(Date.now())
             console.log(response)
@@ -43,7 +40,7 @@ export class QuestionHandler {
             }
 
             this.lock = false;
-            return response.data.answer;
+            return response.data;
         } catch (error) {
             console.error('Error:', error);
             return undefined;

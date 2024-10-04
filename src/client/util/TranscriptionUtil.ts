@@ -34,6 +34,7 @@ export async function startSpeechRecognition(language: string ) {
             transcript += transcriptToAdd;
 
 
+            console.log(Date.now())
             QuestionHandler.getInstance().getAnswerFromAi(transcript).then((answer) => {
                 if (answer) {
                     blocked = false;

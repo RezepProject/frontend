@@ -70,7 +70,7 @@ export class CamaraUtil {
                     console.log(biggest)
                     FaceUtil.getInstance().lookAtMe(faces[biggest].x, faces[biggest].y);
                 }
-            }, 100); // Capture every 100ms
+            }, 600); // Capture every 100ms
         } catch (error) {
             console.error('Error accessing webcam:', error)
         }
