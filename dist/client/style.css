@@ -86,3 +86,15 @@ p {
         content: '...';
     }
 }
+
+.copyright {
+    text-align: left; /* Or center, right as needed */
+    padding: 10px; /* Adjust padding as desired */
+    background-color: #333; /* Change background color */
+    color: #ffffff; /* Change text color */
+    font-family: Arial, sans-serif; /* Choose a font */
+    font-size: 12px; /* Adjust font size */
+    position: absolute; /* Position it absolutely */
+    bottom: 20px; /* Distance from the bottom */
+    left: 20px; /* Distance from the left */
+}

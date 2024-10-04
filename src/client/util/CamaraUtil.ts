@@ -55,14 +55,24 @@ export class CamaraUtil {
                 }
 
                 const faces = await response.json()
-                //console.log('Faces detected:', faces)
+                console.log('Faces detected:', faces)
+                let biggest = 0;
+                let biggestval = 0;
+                
                 if(faces.length >= 1){
-                    FaceUtil.getInstance().lookAtMe(faces[0].x, faces[0].y);
+                    for(let i = 0; i < faces.length; i++){
+                        if(faces[i].width > biggest){
+                            biggestval = faces[i].width;
+                            biggest = i;
+                            
+                        }
+                    }
+                    console.log(biggest)
+                    FaceUtil.getInstance().lookAtMe(faces[biggest].x, faces[biggest].y);
                 }
             }, 100); // Capture every 100ms
         } catch (error) {
             console.error('Error accessing webcam:', error)
         }
     }
-
 }
