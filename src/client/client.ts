@@ -1,6 +1,5 @@
 import { CamaraUtil } from './util/CamaraUtil'
-import { chatMessages } from './util/chatUtil'
-import FaceUtil from "./util/FaceUtil";
+import FaceUtil from './util/FaceUtil'
 import { QuestionHandler } from './questionHandler/QuestionHandler'
 import { startSpeechRecognition } from './util/TranscriptionUtil'
 import { SettingsHandler } from './questionHandler/SettingsHandler'
@@ -18,10 +17,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     settings = (await SettingsHandler.getInstance().getSettings())
-
+    console.log(settings)
     if(settings != undefined){
         FaceUtil.getInstance().speakingLanguage = settings[0].language;
         FaceUtil.getInstance().talkingSpeed = Number(settings[0].talkingSpeed);
+        QuestionHandler.getInstance().AIInUse = settings[0].aiInUse
         await startSpeechRecognition(settings[0].language);
         console.log(settings[0])
     }
