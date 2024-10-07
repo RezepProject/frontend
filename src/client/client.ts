@@ -44,5 +44,4 @@ document.onclick = () => {
         FaceUtil.getInstance().actuallyLoadTheFace();
         FaceUtil.getInstance().speak(settings[0].greetingMessage + "", "receiver");
     }
-    
 }
