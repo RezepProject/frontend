@@ -1,5 +1,5 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
-import { TokenUtil } from "../util/TokenUtil";
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { TokenUtil } from '../util/TokenUtil'
 
 export class QuestionHandler {
     private static instance: QuestionHandler | null = null;
@@ -31,7 +31,7 @@ export class QuestionHandler {
 
         try {
 
-            const response: AxiosResponse<any> = await axios.post('http://localhost:5260/assistantairouter', {
+            const response: AxiosResponse<any> = await axios.post('http://localhost:5260/assistantairouter/', {
                 question: question,
                 sessionId: this.sessionId
             }, config);
