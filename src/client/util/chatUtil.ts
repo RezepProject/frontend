@@ -1,3 +1,5 @@
+import FaceUtil from "./FaceUtil";
+
 export interface ChatMessage {
     messageContent : string | "isTyping",
     from : "sender" | "receiver"
@@ -17,6 +19,11 @@ class MessageArray {
     }
 
     push(item : ChatMessage){
+        let assis = <HTMLElement>document.getElementById("assistant");
+        if(assis.style.display == "block"){
+            FaceUtil.getInstance().resetCountdown();
+        }
+
         this.items.push(item);
         let newItems = this.items;
         this.items = [];
@@ -42,7 +49,6 @@ class MessageArray {
 
     updateMessages(){
         let innerHTML = "";
-
         this.items.forEach(item => {
             if(item.messageContent === "isTyping"){
                 innerHTML +=

@@ -7,6 +7,14 @@ import { SettingsHandler } from './questionHandler/SettingsHandler'
 let settings : any | undefined;
 
 document.addEventListener("DOMContentLoaded", async () => {
+    let loadinghtml = <HTMLElement>document.getElementById("loading...");
+    let startbuttonhtml = <HTMLElement>document.getElementById("startbutton");
+
+    setTimeout(() => {
+        loadinghtml.style.display = "none";
+        startbuttonhtml.style.display = "block"
+    }, 4000);
+
     FaceUtil.getInstance();
     await CamaraUtil.getInstance().captureAndSendFrame()
 
@@ -14,7 +22,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if(answer) {
         FaceUtil.getInstance().speak(answer);
     }*/
-
 
     settings = (await SettingsHandler.getInstance().getSettings())
     console.log(settings)
@@ -28,6 +35,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 })
 
 document.onclick = () => {
-    FaceUtil.getInstance().speak(settings[0].greetingMessage + "", "receiver");
-}
+    let startbuttonhtml = <HTMLElement>document.getElementById("startbutton");
+    let actualassistant = <HTMLElement>document.getElementById("assistant");
 
+    if(startbuttonhtml.style.display == "block"){
+        actualassistant.style.display = "block";
+        startbuttonhtml.style.display = "none";
+        FaceUtil.getInstance().actuallyLoadTheFace();
+        FaceUtil.getInstance().speak(settings[0].greetingMessage + "", "receiver");
+    }
+}

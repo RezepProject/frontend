@@ -98,3 +98,11 @@ p {
     bottom: 20px; /* Distance from the bottom */
     left: 20px; /* Distance from the left */
 }
+
+.startbutton     {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 90px);
+    transform: translateY(-50%);
+    text-align: center;
+}

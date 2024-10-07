@@ -46,10 +46,30 @@ export default class FaceUtil {
     constructor() {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
+    }
 
+    public actuallyLoadTheFace(){
         this.loadModel();
         this.checkStatus();
         this.loadSpeechToText();
+    }
+
+    private countdown = 60;
+    public resetCountdown() {
+    if (this.countdown === 0) {
+    document.location.reload();
+    return;
+    }
+  
+
+    this.countdown = 60;
+    const intervalId = setInterval(() => {
+    this.countdown--;
+    if (this.countdown === 0) {
+      clearInterval(intervalId);
+      document.location.reload();
+    }
+    }, 1000);
     }
 
     public speak(msg: string, from : "receiver" | "sender") {
