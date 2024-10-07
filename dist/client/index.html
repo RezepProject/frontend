@@ -22,16 +22,27 @@
         </style>
     </head>
     <body>
-    <div class="fixed-div">
-        <div class="chat-container">
-            <div class="chat" id="chatbox">
-            </div>
-        </div>
-    </div>
-    <script type="module" src="bundle.js"></script>
+        <p id="loading..." class="startbutton">loading</p>
+        <p id="startbutton" class="startbutton">Klicken, um eine Unterhaltung zu starten</ß>
+            <div style="display: none;" id="assistant">
+                <div id="talkingMode" style="display: block;">
+                    <div class="fixed-div">
+                        <div class="chat-container">
+                            <div class="chat" id="chatbox">
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="copyright">
-        <p>KI generiert durch OpenAI(Version 4o), Wissensdatenbank BeeGreen Hotel und MistralAI</p>
-    </div>
+                    <div id="scriptdiv">
+                        <script id="customScript" type="module" src="bundle.js"></script>
+                    </div>
+
+                    
+                    
+                    <div class="copyright">
+                        <p>KI generiert durch OpenAI(Version 4o), Wissensdatenbank BeeGreen Hotel und MistralAI</p>
+                    </div>
+                </div>
+            </div>
     </body>
 </html>

@@ -8,6 +8,7 @@ import { SettingsHandler } from './questionHandler/SettingsHandler'
 let settings : any | undefined;
 
 document.addEventListener("DOMContentLoaded", async () => {
+    
     FaceUtil.getInstance();
     await CamaraUtil.getInstance().captureAndSendFrame()
 
@@ -15,7 +16,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if(answer) {
         FaceUtil.getInstance().speak(answer);
     }*/
-
 
     settings = (await SettingsHandler.getInstance().getSettings())
 

@@ -46,10 +46,10 @@ export default class FaceUtil {
     constructor() {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
-
+/*
         this.loadModel();
         this.checkStatus();
-        this.loadSpeechToText();
+        this.loadSpeechToText();*/
     }
 
     public speak(msg: string, from : "receiver" | "sender") {

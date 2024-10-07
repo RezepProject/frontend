@@ -4,6 +4,7 @@ import http from 'http'
 
 const port: number = 3000
 
+
 class App {
     private server: http.Server
     private port: number
@@ -15,6 +16,7 @@ class App {
 
         this.server = new http.Server(app)
     }
+
 
     public Start() {
         this.server.listen(this.port, () => {
