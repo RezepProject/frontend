@@ -1,5 +1,17 @@
 Run with: npm run dev
 
-## Maybe you need to setup firebase
+## If you want to connect to firebase
 
-Comming soon
+```
+npx firebase login
+npx firebase init hosting
+```
+
+> Use existing project
+
+## If you need to update firebase
+
+```
+npm run build
+npx firebase deploy --only hosting
+```
