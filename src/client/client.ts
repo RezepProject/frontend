@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     setTimeout(() => {
         loadinghtml.style.display = "none";
         startbuttonhtml.style.display = "block"
-    }, 4000);
+    }, 500);
 
     FaceUtil.getInstance();
     await CamaraUtil.getInstance().captureAndSendFrame()
@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log(settings)
     if(settings != undefined){
         FaceUtil.getInstance().speakingLanguage = settings[0].language;
+        console.log(settings[0].backgroundImage);
+        let base64string = "data:image/jpg;base64," + settings[0].backgroundImage;
+        FaceUtil.getInstance().setCustomBackground(base64string);
         FaceUtil.getInstance().talkingSpeed = Number(settings[0].talkingSpeed);
         QuestionHandler.getInstance().AIInUse = settings[0].aiInUse
         await startSpeechRecognition(settings[0].language);
