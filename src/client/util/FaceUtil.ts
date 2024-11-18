@@ -54,6 +54,20 @@ export default class FaceUtil {
         this.loadSpeechToText();
     }
 
+    public setCustomBackground(base64String: string){
+        const loader = new THREE.TextureLoader();
+        loader.load(
+            base64String, 
+            (texture) => {
+                this.scene.background = texture;
+            },
+            undefined,
+            (error) => {
+                console.error('Error loading texture:', error);
+            }
+        );
+    }
+
     private countdown = 60;
     public resetCountdown() {
     if (this.countdown === 0) {
