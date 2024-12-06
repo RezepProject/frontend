@@ -12,8 +12,11 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        test: /\.css$/i, // Match CSS files
+        use: [
+          MiniCssExtractPlugin.loader, // Extract CSS into separate files
+          'css-loader', // Handle CSS imports
+        ],
       },
     ],
   },
@@ -23,6 +26,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true, // Clean the output directory before every build
   },
 
   plugins: [
@@ -30,7 +34,9 @@ module.exports = {
       title: 'no-frameworks-typescript-app-starter',
       template: 'src/index.html',
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css', // Output filename for CSS
+    }),
   ],
 
   devServer: {

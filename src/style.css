@@ -1,13 +1,49 @@
-body,
-html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
+html, body {
   height: 100%;
+  margin: 0;
+  overflow: hidden;
 }
 
-canvas {
-  display: block;
+#backgroundCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  z-index: 0; /* Lowest layer */
+}
+#chatContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90vw; /* 90% of the viewport width */
+  height: 90vw; /* Ensure it's a square */
+  max-width: 90vh; /* Restrict size based on height for responsiveness */
+  max-height: 90vh;
+  transform: translate(-50%, -50%); /* Center horizontally and vertically */
+  z-index: 10; /* Foreground */
+  background: rgba(255, 255, 255, 0.4); /* Slight transparency */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Example Chat styling */
+#chatContainer.message {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+#chatContainer.message.user {
+  background-color: #e1f7d5;
+  align-self: flex-end;
+}
+
+#chatContainer.message.bot {
+  background-color: #f5f5f5;
+  align-self: flex-start;
 }
