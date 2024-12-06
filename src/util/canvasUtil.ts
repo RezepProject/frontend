@@ -28,46 +28,54 @@ export class CanvasUtil {
         return ctx;
     }
 
-    public static renderBars(canvas: HTMLCanvasElement, media: ArrayBuffer) {
-        const { analyser } = this.initializeAudioContext(media);
-        const ctx = this.configureCanvas(canvas);
+    public static renderBars(canvas: HTMLCanvasElement, media: ArrayBuffer): Promise<void> {
+        return new Promise((resolve) => {
+            const { analyser, audio } = this.initializeAudioContext(media);
+            const ctx = this.configureCanvas(canvas);
 
-        if (!ctx) {
-            return;
-        }
-
-        const WIDTH = canvas.width;
-        const HEIGHT = canvas.height;
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-        const barWidth = (WIDTH / bufferLength) * 2.5;
-
-        const drawBars = () => {
-            ctx.fillStyle = "#000";
-            ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-            let x = 0;
-
-            analyser.getByteFrequencyData(dataArray);
-
-            for (let i = 0; i < bufferLength; i++) {
-                const barHeight = dataArray[i];
-                const r = barHeight + (25 * (i / bufferLength));
-                const g = 250 * (i / bufferLength);
-                const b = 50;
-
-                ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-                ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
-
-                x += barWidth + 1;
+            if (!ctx) {
+                resolve();
+                return;
             }
-        };
 
-        const renderFrame = () => {
-            requestAnimationFrame(renderFrame);
-            drawBars();
-        };
+            const WIDTH = canvas.width;
+            const HEIGHT = canvas.height;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            const barWidth = (WIDTH / bufferLength) * 2.5;
 
-        renderFrame();
+            const drawBars = () => {
+                ctx.fillStyle = "#000";
+                ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+                let x = 0;
+
+                analyser.getByteFrequencyData(dataArray);
+
+                for (let i = 0; i < bufferLength; i++) {
+                    const barHeight = dataArray[i];
+                    const r = barHeight + (25 * (i / bufferLength));
+                    const g = 250 * (i / bufferLength);
+                    const b = 50;
+
+                    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                    ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+
+                    x += barWidth + 1;
+                }
+            };
+
+            const renderFrame = () => {
+                if (!audio.paused && !audio.ended) {
+                    requestAnimationFrame(renderFrame);
+                    drawBars();
+                } else if (audio.ended) {
+                    ctx.fillStyle = "#000";
+                    resolve();
+                }
+            };
+
+            renderFrame();
+        });
     }
 }
