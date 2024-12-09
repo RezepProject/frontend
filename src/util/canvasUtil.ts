@@ -1,11 +1,22 @@
+import {ChatUtil} from "./chatUtil";
+import {audioFinished} from "../index";
+
 export class CanvasUtil {
     constructor(canvas : HTMLCanvasElement) {
         this.can = canvas;
         this.ctx = this.configureCanvas(canvas);
+        this.backgroundImg = "";
     }
 
     private can : HTMLCanvasElement;
     private ctx : CanvasRenderingContext2D;
+    private backgroundImg : string;
+
+    public setBackgroundImg(newImg :string){
+        this.backgroundImg = newImg;
+        this.drawACoolBackground();
+        this.drawText();
+    }
 
     public getCtx() : CanvasRenderingContext2D{
         return this.ctx;
@@ -37,8 +48,6 @@ export class CanvasUtil {
         canvas.height = window.innerHeight;
 
         const ctx = canvas.getContext("2d");
-        ctx.scale(-1, 1);
-        ctx.translate(-canvas.width, 0);
 
         if (!ctx) {
             console.error("Failed to get canvas 2D context.");
@@ -71,7 +80,7 @@ export class CanvasUtil {
             const barWidth = (WIDTH / bufferLength) * 2.5; // Adjust bar width based on canvas width
 
             const drawBars = () => {
-                this.clearCanvas();
+                this.drawACoolBackground();
 
                 let x = 0;
 
@@ -85,7 +94,8 @@ export class CanvasUtil {
                     const g = 250 * (i / bufferLength); // Dynamic green color
                     const b = 50; // Fixed blue color
 
-                    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                    //ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                    ctx.fillStyle = `rgb(${r/2}, ${g/2}, ${b})`;
                     ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
                     //ctx.fillRect(HEIGHT - barHeight, x, barHeight, barWidth);
 
@@ -98,18 +108,62 @@ export class CanvasUtil {
                     requestAnimationFrame(renderFrame);
                     drawBars();
                 } else if (audio.ended) {
-                    ctx.fillStyle = "#000";
                     resolve();
+                    this.drawACoolBackground();
+                    audioFinished()
                 }
-                ctx.fillStyle = "#000";
             };
 
             renderFrame();
         });
     }
 
-    private clearCanvas(){
-        this.ctx.fillStyle = "#000";
+
+    public drawACoolBackground(){
+        if(this.backgroundImg != ""){
+            let customimg = new Image();
+            customimg.src = this.backgroundImg;
+
+            this.ctx.drawImage(customimg, 0, 0, this.can.width, this.can.height);
+            return;
+        }
+        const gradient = this.ctx.createLinearGradient(0, 0, this.can.width, this.can.height);
+        gradient.addColorStop(0, "#0f2027");
+        gradient.addColorStop(1, "#2c5364");
+        this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.can.width, this.can.height);
+    }
+
+
+    public drawText() {
+        this.ctx.clearRect(0, 0, this.can.width, this.can.height);
+
+        // Background Gradient
+        this.drawACoolBackground();
+
+        // Title Text
+        this.ctx.font = "bold 80px Arial";
+        this.ctx.fillStyle = "white";
+        this.ctx.textAlign = "center";
+        this.ctx.shadowColor = "rgba(0,0,0,0.7)";
+        this.ctx.shadowBlur = 10;
+        this.ctx.fillText("Lost?", this.can.width / 2, this.can.height / 2 - 60);
+
+        // Button Background
+        this.ctx.shadowBlur = 20;
+        this.ctx.fillStyle = "#ff6b6b";
+        const btnWidth = 400, btnHeight = 100;
+        const btnX = (this.can.width - btnWidth) / 2;
+        const btnY = this.can.height / 2;
+
+        this.ctx.fillRect(btnX, btnY, btnWidth, btnHeight);
+        this.ctx.shadowBlur = 0;
+
+        // Button Text
+        this.ctx.font = "bold 40px Arial";
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText("Click Me to Get Help", this.can.width / 2, btnY + 65);
+
+        return { btnX, btnY, btnWidth, btnHeight };
     }
 }

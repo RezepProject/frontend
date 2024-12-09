@@ -3,55 +3,63 @@ import { QuestionHandler } from "./util/questionHandler";
 import {SpeechToTextUtil} from "./util/speechToTextUtil";
 import {TextToSpeechUtil} from "./util/textToSpeechUtil";
 import './style.css';
+import {SettingsHandler} from "./util/settingsHandler";
+import {ChatUtil} from "./util/chatUtil";
 
-document.addEventListener("DOMContentLoaded", () => {
-    let can : CanvasUtil = new CanvasUtil(document.getElementById("backgroundCanvas") as HTMLCanvasElement);
+let can : CanvasUtil;
+let theforgroundchat : HTMLElement;
+let customGreetingMessage :string;
+let chatUtils : ChatUtil;
+
+document.addEventListener("DOMContentLoaded", async () => {
+    can = new CanvasUtil(document.getElementById("thecan") as HTMLCanvasElement);
+    theforgroundchat = document.getElementById("containerchatcontainer");
     can.getCanvas().width = window.innerWidth;
     can.getCanvas().height = window.innerHeight;
+    can.drawText();
 
-    can.getCanvas().onclick = () => {
-        TextToSpeechUtil.getMp3Data("hello, this is a test if the audio vizuliser audio vizulised").then(async (data) => {
-            can.renderBars(data);
-
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-        });
+    let settings = (await SettingsHandler.getInstance().getSettings())
+    if (settings != undefined) {
+        customGreetingMessage = settings[0].greetingMessage;
+        let base64string = "data:image/jpg;base64," + settings[0].backgroundImage;
+        can.setBackgroundImg(base64string);
+        //SETTINGS WE MIGHT NEED LATER:
+        //FaceUtil.getInstance().speakingLanguage = settings[0].language;
+        //console.log(settings[0].backgroundImage);
+        //FaceUtil.getInstance().setCustomBackground(base64string);
+        //FaceUtil.getInstance().talkingSpeed = Number(settings[0].talkingSpeed);
+        //QuestionHandler.getInstance().AIInUse = settings[0].aiInUse
+        //await startSpeechRecognition(settings[0].language);
+        //console.log(settings[0])
     }
-    document.getElementById("chatContainer").onclick = can.getCanvas().onclick;
 });
 
-/*
-document.addEventListener("DOMContentLoaded", () => {
-    let container = document.getElementById("container") as HTMLElement;
+document.onclick = () => {
+    can.drawACoolBackground();
+    chatUtils = new ChatUtil(theforgroundchat);
 
-    if (container) {
-        container.style.gridTemplateColumns = `auto ${window.innerHeight}px auto`;
-    }
-})
-const button = document.getElementById('startButton') as HTMLButtonElement;
-//const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-button.addEventListener('click', start);
+    TextToSpeechUtil.getMp3Data(customGreetingMessage).then(async (data) => {
+        can.renderBars(data);
+        chatUtils.addMessage(customGreetingMessage);
 
-function start() {
-    if (!canvas) {
-        console.error("Failed to get canvas element.");
-        return;
-    }
-
-    TextToSpeechUtil.getMp3Data("Hallo").then(async (data) => {
-        CanvasUtil.renderBars(canvas, data);
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        work();
     });
+}
+
+export function audioFinished(){
+    chatUtils.doneSpeaking();
+    work();
 }
 
 function work() {
     const stt = new SpeechToTextUtil();
     stt.start().then(async (result) => {
+        chatUtils.addMessage(result);
         let res = await QuestionHandler.getInstance().getAnswerFromAi(result);
-        console.log(res);
+        chatUtils.addMessage(res);
 
         TextToSpeechUtil.getMp3Data(res).then((data) => {
-            CanvasUtil.renderBars(canvas, data).then(work);
+            can.renderBars(data);
         });
     });
-}*/
+}
