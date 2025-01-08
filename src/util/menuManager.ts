@@ -45,7 +45,11 @@ export class MenuManager{
         });
     }
 
-    private handleBackgroundClick(index : number, src : string){
+    private async handleBackgroundClick(index : number, src : string){
+        this.unloadMenu();
+        CanvasUtil.getInstance().setBackgroundImg(src);
+        CanvasUtil.getInstance().drawHome();
+        await setTimeout(() => {CanvasUtil.getInstance().stateOfApp = "home"}, 500)
     }
 
     private buildMenuString() {

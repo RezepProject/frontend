@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
-document.onclick = async () => {
+document.onclick = () => {
     if(can.stateOfApp == "home"){
         can.drawACoolBackground();
         if(can.MouseOnClickMeButton()){

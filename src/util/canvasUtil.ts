@@ -257,7 +257,6 @@ export class CanvasUtil {
     }
 
     public drawHome(){
-        document.getElementById("menutag").innerHTML = "";
         this.drawText();
         this.drawMenuIcon();
     }
