@@ -5,6 +5,7 @@
   width: 100%;
   height: 100%;
   z-index: 0; /* Lowest layer */
+  overflow: hidden;
 }
 #chatContainer {
   position: absolute;
@@ -91,5 +92,125 @@ body, html {
   }
   60%{
     content: '...';
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Menu Overlay Styling */
+#menutag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none; /* Allows clicks to pass through if necessary */
+}
+
+.menu {
+  background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent background */
+  max-width: calc(100vh - 200px);
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  pointer-events: auto; /* Enables interaction with menu elements */
+  max-height: calc(100vh - 40px); /* Ensures the menu doesn't exceed the viewport height */
+  overflow: hidden; /* Hide overflow except for the background options */
+}
+
+.menu h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.menu h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+}
+
+
+.language-selection,
+.background-selection {
+  margin-bottom: 30px;
+}
+
+.flags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.background-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  max-height: 200px; /* Limit the height of the background options container */
+  overflow-y: auto; /* Enable vertical scrolling within this area */
+}
+
+.flag,
+.background-thumb {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.flag:hover,
+.background-thumb:hover {
+  border-color: #007BFF; /* Highlight on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .flag,
+  .background-thumb {
+    width: 50px;
+    height: 35px;
+  }
+
+  .menu {
+    margin: 10px;
+    padding: 15px;
+    max-height: calc(100vh - 20px); /* Adjust the menu height for smaller screens */
+  }
+
+  .background-options {
+    max-height: 150px; /* Adjust as needed */
+  }
+}
+
+@media (max-width: 480px) {
+  .flag,
+  .background-thumb {
+    width: 40px;
+    height: 30px;
+  }
+
+  .menu h3 {
+    font-size: 1.1em;
+  }
+
+  .background-options {
+    max-height: 120px; /* Adjust as needed */
   }
 }

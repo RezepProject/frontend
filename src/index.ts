@@ -11,13 +11,14 @@ let theforgroundchat : HTMLElement;
 let customGreetingMessage :string;
 let chatUtils : ChatUtil;
 
+let abortController : AbortController;
+
 document.addEventListener("DOMContentLoaded", async () => {
     can = new CanvasUtil(document.getElementById("thecan") as HTMLCanvasElement);
     theforgroundchat = document.getElementById("containerchatcontainer");
     can.getCanvas().width = window.innerWidth;
     can.getCanvas().height = window.innerHeight;
-    can.drawText();
-
+    
     let settings = (await SettingsHandler.getInstance().getSettings())
     if (settings != undefined) {
         customGreetingMessage = settings[0].greetingMessage;
@@ -32,18 +33,52 @@ document.addEventListener("DOMContentLoaded", async () => {
         //await startSpeechRecognition(settings[0].language);
         //console.log(settings[0])
     }
+    can.drawMenuIcon();
 });
 
+
 document.onclick = () => {
+    if(can.stateOfApp == "home"){
+        if(can.MouseOnClickMeButton()){
+            abortController = new AbortController(); 
+            drawtheforgroundchat(abortController.signal);
+        }else if(can.MouseOnMenuIcon()){
+            can.drawMenu();
+        }
+    }else if(can.stateOfApp == "menu"){
+        if(can.MouseOnMenuIcon()){
+            can.drawHome();
+        }
+    }else if(can.stateOfApp == "chat"){
+        if(can.MouseOnMenuIcon()){
+            abortController.abort();
+            theforgroundchat.innerHTML = "";
+            can.drawHome();
+        }
+    }
+}
+
+function drawtheforgroundchat(abortSignal: AbortSignal){
     can.drawACoolBackground();
     chatUtils = new ChatUtil(theforgroundchat);
+    can.drawIconInMenu();
 
-    TextToSpeechUtil.getMp3Data(customGreetingMessage).then(async (data) => {
-        can.renderBars(data);
-        chatUtils.addMessage(customGreetingMessage);
+        TextToSpeechUtil.getMp3Data(customGreetingMessage)
+        .then(async (data) => {
+            if (abortSignal.aborted) {
+                throw new Error('Operation aborted during execution');
+            }
+            can.stateOfApp = "chat-talking";
+            can.renderBars(data);
+            chatUtils.addMessage(customGreetingMessage);
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            can.stateOfApp = "chat";
+            can.drawIconInMenu();
+        })
+        .catch((e) => {
+            console.error(e);
+        });
 
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-    });
 }
 
 export function audioFinished(){

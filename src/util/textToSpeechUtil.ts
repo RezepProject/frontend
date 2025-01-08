@@ -1,5 +1,5 @@
 export class TextToSpeechUtil {
-    private static ttsApiUrl = "http://localhost:8000/v1/audio/speech";
+    private static ttsApiUrl = "https://if200181.cloud.htl-leonding.ac.at/v1/audio/speech";
 
     /**
      * Convert text to speech and get the MP3 data as an ArrayBuffer.
@@ -12,6 +12,8 @@ export class TextToSpeechUtil {
                 model: "tts-1",
                 input: text,
                 voice: "alloy",
+                //thorsten-emotionally-amused <- deutsche voice
+                //alloy                       <- englische voice
                 response_format: "mp3",
                 speed: 0.8,
             };
