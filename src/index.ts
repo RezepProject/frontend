@@ -5,16 +5,16 @@ import {TextToSpeechUtil} from "./util/textToSpeechUtil";
 import './style.css';
 import {SettingsHandler} from "./util/settingsHandler";
 import {ChatUtil} from "./util/chatUtil";
+import {MenuManager} from "./util/menuManager";
 
 let can : CanvasUtil;
 let theforgroundchat : HTMLElement;
 let customGreetingMessage :string;
 let chatUtils : ChatUtil;
 
-let abortController : AbortController;
-
 document.addEventListener("DOMContentLoaded", async () => {
-    can = new CanvasUtil(document.getElementById("thecan") as HTMLCanvasElement);
+    can = CanvasUtil.getInstance();
+    //chatUtils = new ChatUtil(theforgroundchat);
     theforgroundchat = document.getElementById("containerchatcontainer");
     can.getCanvas().width = window.innerWidth;
     can.getCanvas().height = window.innerHeight;
@@ -34,46 +34,46 @@ document.addEventListener("DOMContentLoaded", async () => {
         //console.log(settings[0])
     }
     can.drawMenuIcon();
+    MenuManager.getInstance();
 });
 
 
-document.onclick = () => {
+document.onclick = async () => {
     if(can.stateOfApp == "home"){
+        can.drawACoolBackground();
         if(can.MouseOnClickMeButton()){
-            abortController = new AbortController(); 
-            drawtheforgroundchat(abortController.signal);
+            drawtheforgroundchat();
         }else if(can.MouseOnMenuIcon()){
             can.drawMenu();
         }
-    }else if(can.stateOfApp == "menu"){
+        return
+    }
+    if(can.stateOfApp == "menu"){
         if(can.MouseOnMenuIcon()){
+            MenuManager.getInstance().unloadMenu();
             can.drawHome();
         }
-    }else if(can.stateOfApp == "chat"){
+        return;
+    }
+    if(can.stateOfApp == "chat"){
+        can.drawACoolBackground();
         if(can.MouseOnMenuIcon()){
-            abortController.abort();
-            theforgroundchat.innerHTML = "";
-            can.drawHome();
+            location.reload();
         }
+        return;
     }
 }
 
-function drawtheforgroundchat(abortSignal: AbortSignal){
+function drawtheforgroundchat(){
     can.drawACoolBackground();
     chatUtils = new ChatUtil(theforgroundchat);
+    chatUtils.buildChat();
     can.drawIconInMenu();
 
         TextToSpeechUtil.getMp3Data(customGreetingMessage)
         .then(async (data) => {
-            if (abortSignal.aborted) {
-                throw new Error('Operation aborted during execution');
-            }
-            can.stateOfApp = "chat-talking";
             can.renderBars(data);
             chatUtils.addMessage(customGreetingMessage);
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            can.stateOfApp = "chat";
-            can.drawIconInMenu();
         })
         .catch((e) => {
             console.error(e);

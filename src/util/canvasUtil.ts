@@ -1,6 +1,7 @@
 import {ChatUtil} from "./chatUtil";
 import {audioFinished} from "../index";
 import {TokenUtil} from "./tokenUtil";
+import {MenuManager} from "./menuManager";
 
 export class CanvasUtil {
     constructor(canvas : HTMLCanvasElement) {
@@ -9,7 +10,14 @@ export class CanvasUtil {
         this.ctx = this.configureCanvas(canvas);
         this.backgroundImg = "";
         this.stateOfApp = "home";
-        setTimeout(() => this.fetchBackgroundImage(), 500);
+    }
+
+    private static instance : CanvasUtil;
+    public static getInstance(){
+        if(!this.instance){
+            this.instance = new CanvasUtil(document.getElementById("thecan") as HTMLCanvasElement);
+        }
+        return this.instance;
     }
 
     private imagesDoneLoading : boolean;
@@ -108,6 +116,7 @@ export class CanvasUtil {
 
             const drawBars = () => {
                 this.drawACoolBackground();
+                this.drawIconInMenu();
 
                 let x = 0;
 
@@ -137,6 +146,7 @@ export class CanvasUtil {
                 } else if (audio.ended) {
                     resolve();
                     this.drawACoolBackground();
+                    this.drawIconInMenu();
                     audioFinished()
                 }
             };
@@ -164,11 +174,6 @@ export class CanvasUtil {
             this.ctx.drawImage(customimg, 0, 0, this.can.width, this.can.height);
             return;
         }
-        const gradient = this.ctx.createLinearGradient(0, 0, this.can.width, this.can.height);
-        gradient.addColorStop(0, "#0f2027");
-        gradient.addColorStop(1, "#2c5364");
-        this.ctx.fillStyle = gradient;
-        this.ctx.fillRect(0, 0, this.can.width, this.can.height);
     }
 
 
@@ -182,7 +187,7 @@ export class CanvasUtil {
         this.ctx.textAlign = "center";
         this.ctx.shadowColor = "rgba(0,0,0,0.7)";
         this.ctx.shadowBlur = 10;
-        this.ctx.fillText("Lost?", this.can.width / 2, this.can.height / 2 - 60);
+        this.ctx.fillText((MenuManager.getInstance().getLan() == "en") ? "Lost?" : "Verlohren?", this.can.width / 2, this.can.height / 2 - 60);
 
         // Button Background
         this.ctx.shadowBlur = 20;
@@ -197,7 +202,7 @@ export class CanvasUtil {
         // Button Text
         this.ctx.font = "bold 40px Arial";
         this.ctx.fillStyle = "white";
-        this.ctx.fillText("Click me to get help", this.can.width / 2, btnY + 65);
+        this.ctx.fillText((MenuManager.getInstance().getLan() == "en") ? "Click me to get help" : "Klicke mich für Hilfe", this.can.width / 2, btnY + 65);
 
         return { btnX, btnY, btnWidth, btnHeight };
     }
@@ -244,53 +249,11 @@ export class CanvasUtil {
     }
 
     public drawMenu(){
-
         this.drawACoolBackground();
-        this.drawIconInMenu();
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
         this.ctx.fillRect(0, 0, this.can.width, this.can.height);
-
-        /*
-        this.ctx.fillStyle = "white";
-        this.ctx.font = "bold 40px Arial";
-        this.ctx.textAlign = "center";
-        this.ctx.fillText("Menu", this.can.width / 2, 100);*/
-
-        let htmlsting = "";
-        htmlsting += `<div class="menu">
-      <!-- Language Selection Section -->
-       <h1>Menu</h1>
-      <div class="language-selection">
-        <h3>Select Language</h3>
-        <div class="flags">
-          <img src="./img/Englishflag.svg.png" alt="English" class="flag">
-          <img src="./img/GermanyFlag.jpg" alt="Deutsch" class="flag">
-        </div>
-      </div>
-  
-      <!-- Background Selection Section -->
-      <div class="background-selection">
-        <h3>Select Background</h3>
-        <div class="background-options">`;
-
-        if(this.imagesDoneLoading){
-            this.allBckgrndImgs.forEach(bi => {
-                htmlsting += `         
-         <div class="background-option">
-            <img src="data:image/png;base64,${bi}" alt="Background 2" class="background-thumb">
-          </div>`;
-            })
-        }else{
-            alert("not enough time to load images...")
-        }
-
-
-
-        htmlsting += `        </div>
-      </div>
-    </div>`;
-
-        document.getElementById("menutag").innerHTML = htmlsting;
+        this.drawIconInMenu();
+        MenuManager.getInstance().loadMenu();
     }
 
     public drawHome(){
@@ -303,8 +266,8 @@ export class CanvasUtil {
         this.menuIcon.startX = this.can.width - this.menuIcon.size - this.menuIcon.padding;
         this.menuIcon.startY = this.menuIcon.padding;
 
-        this.ctx.strokeStyle = 'white';
-        this.ctx.lineWidth = this.menuIcon.lineWidth;
+        this.ctx.strokeStyle = "rgba(255,0,0,1)";
+        this.ctx.lineWidth = this.menuIcon.lineWidth / 3;
 
         this.ctx.beginPath();
         // Draw the '/' part of the X
@@ -317,42 +280,5 @@ export class CanvasUtil {
         this.ctx.moveTo(this.menuIcon.startX + this.menuIcon.size, this.menuIcon.startY);
         this.ctx.lineTo(this.menuIcon.startX, this.menuIcon.startY + this.menuIcon.size);
         this.ctx.stroke();
-    }
-
-    private async fetchBackgroundImage() {
-        try {
-            // Get the TokenUtil instance and fetch the token
-            const token = (await TokenUtil.getInstance()).getToken();
-
-            if (!token) {
-                throw new Error("Token could not be generated.");
-            }
-
-            // Define the endpoint URL
-            const endpoint = `${TokenUtil.route}/backgroundimage`;
-
-            // Make the API call with the token
-            const response = await fetch(endpoint, {
-                method: "GET",
-                headers: {
-                    "accept": "text/plain",
-                    "Authorization": `Bearer ${token}`,
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            // Parse the response JSON
-            const data = await response.json();
-            this.allBckgrndImgs = [];
-            for(let i = 0; i < data.length; i++){
-                this.allBckgrndImgs.push(data[i].base64Image);
-            }
-            this.imagesDoneLoading = true;
-        } catch (error) {
-            console.error("Error fetching background image:", error);
-        }
     }
 }

@@ -56,4 +56,10 @@ export class ChatUtil{
         this.isWaiting = false;
         this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
     }
+
+    public unloadChat(){
+        this.containercontainer.innerHTML = ``;
+        this.chatContainer.innerHTML = "";
+        this.isWaiting = false;
+    }
 }
