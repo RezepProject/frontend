@@ -1,13 +1,15 @@
 import {TokenUtil} from "./tokenUtil";
 import {CanvasUtil} from "./canvasUtil";
+import {ChatUtil} from "./chatUtil";
 
 export class MenuManager{
     private static instance : MenuManager;
     private menuDiv = document.getElementById("menutag");
-    private allBckgrndImgs : string[];
+    private allBckgrndImgs : BackgroundImage[];
     private imagesDoneLoading: boolean;
     private menuString = "";
     private currentLan : string;
+    public settingsProvider: Setting;
 
     constructor() {
         this.imagesDoneLoading = false;
@@ -40,7 +42,7 @@ export class MenuManager{
         const thumbnails = document.querySelectorAll(".background-thumb");
         thumbnails.forEach((thumbnail : HTMLImageElement, index) => {
             thumbnail.onclick = () => {
-                this.handleBackgroundClick(index, thumbnail.src);
+                this.handleBackgroundClick(parseInt(thumbnail.id), thumbnail.src);
             };
         });
     }
@@ -49,7 +51,10 @@ export class MenuManager{
         this.unloadMenu();
         CanvasUtil.getInstance().setBackgroundImg(src);
         CanvasUtil.getInstance().drawHome();
-        await setTimeout(() => {CanvasUtil.getInstance().stateOfApp = "home"}, 500)
+        this.settingsProvider.backgroundImageId = index;
+        this.settingsProvider.backgroundImage = src.slice("data:image/png;base64,".length, src.length);
+        await ChatUtil.sendSetting(this.settingsProvider);
+        CanvasUtil.getInstance().stateOfApp = "home";
     }
 
     private buildMenuString() {
@@ -74,7 +79,7 @@ export class MenuManager{
             this.allBckgrndImgs.forEach(bi => {
                 htmlsting += `         
          <div class="background-option">
-            <img src="data:image/png;base64,${bi}" alt="Backgroundimg" class="background-thumb">
+            <img src="data:image/png;base64,${bi.base64Image}" id="${bi.id}" alt="Backgroundimg" class="background-thumb">
           </div>`;
             })
         }else{
@@ -123,12 +128,11 @@ export class MenuManager{
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
-            // Parse the response JSON
-            const data = await response.json();
             this.allBckgrndImgs = [];
+            // Parse the response JSON
+            const data : BackgroundImage[] = await response.json();
             for(let i = 0; i < data.length; i++){
-                this.allBckgrndImgs.push(data[i].base64Image);
+                this.allBckgrndImgs.push({base64Image : data[i].base64Image, id : data[i].id});
             }
             this.imagesDoneLoading = true;
         } catch (error) {

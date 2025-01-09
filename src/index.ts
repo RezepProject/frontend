@@ -19,10 +19,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     can.getCanvas().width = window.innerWidth;
     can.getCanvas().height = window.innerHeight;
     
-    let settings = (await SettingsHandler.getInstance().getSettings())
+    let settings : Setting = (await SettingsHandler.getInstance().getSettings())[0]
     if (settings != undefined) {
-        customGreetingMessage = settings[0].greetingMessage;
-        let base64string = "data:image/jpg;base64," + settings[0].backgroundImage;
+        customGreetingMessage = settings.greetingMessage;
+        MenuManager.getInstance().settingsProvider = settings;
+        let base64string = "data:image/jpg;base64," + settings.backgroundImage;
         can.setBackgroundImg(base64string);
         //SETTINGS WE MIGHT NEED LATER:
         //FaceUtil.getInstance().speakingLanguage = settings[0].language;

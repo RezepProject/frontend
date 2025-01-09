@@ -1,3 +1,5 @@
+import {TokenUtil} from "./tokenUtil";
+
 export class ChatUtil{
     private messages : string [];
     private containercontainer : HTMLElement;
@@ -61,5 +63,37 @@ export class ChatUtil{
         this.containercontainer.innerHTML = ``;
         this.chatContainer.innerHTML = "";
         this.isWaiting = false;
+    }
+
+    public static async sendSetting(setting: Setting) {
+        const tokenUtil = await TokenUtil.getInstance();
+        const token = tokenUtil.getToken();
+
+        if (!token) {
+            throw new Error('Token is not available');
+        }
+
+        const response = await fetch(`http://localhost:5260/settings/${setting.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'accept': 'text/plain'
+            },
+            body: JSON.stringify(setting)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update setting: ${response.statusText}`);
+        }
+
+        // Prüfen, ob die Antwort einen Inhalt hat, bevor wir .json() aufrufen
+        const text = await response.text();
+        if (text) {
+            return JSON.parse(text);
+        }
+
+        // Eventuell Rückgabe einer statusbezogenen Nachricht oder eines Objekts
+        return { message: "Update successful", status: response.status };
     }
 }
