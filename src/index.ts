@@ -33,34 +33,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         //await startSpeechRecognition(settings[0].language);
         //console.log(settings[0])
     }
-    can.drawMenuIcon();
+    await setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);
+
     MenuManager.getInstance();
 });
 
 
-document.onclick = () => {
-    if(can.stateOfApp == "home"){
-        can.drawACoolBackground();
-        if(can.MouseOnClickMeButton()){
-            drawtheforgroundchat();
-        }else if(can.MouseOnMenuIcon()){
-            can.drawMenu();
+let blockclick = false;
+document.onclick = async () => {
+    if(!blockclick){
+        blockclick = true;
+        if(can.stateOfApp == "home"){
+            if(can.MouseOnClickMeButton()){
+                drawtheforgroundchat();
+            }else if(can.MouseOnMenuIcon()){
+                can.drawMenu();
+            }
+            await setTimeout(() => {blockclick = false;}, 150);
+            return
         }
-        return
-    }
-    if(can.stateOfApp == "menu"){
-        if(can.MouseOnMenuIcon()){
-            MenuManager.getInstance().unloadMenu();
-            can.drawHome();
+        if(can.stateOfApp == "menu"){
+            if(can.MouseOnMenuIcon()){
+                MenuManager.getInstance().unloadMenu();
+                can.drawHome();
+            }
+            await setTimeout(() => {blockclick = false;}, 150);
+            return;
         }
-        return;
-    }
-    if(can.stateOfApp == "chat"){
-        can.drawACoolBackground();
-        if(can.MouseOnMenuIcon()){
-            location.reload();
+        if(can.stateOfApp == "chat"){
+            if(can.MouseOnMenuIcon()){
+                location.reload();
+            }
+            await setTimeout(() => {blockclick = false;}, 150);
+            return;
         }
-        return;
+        blockclick = false;
     }
 }
 
@@ -72,6 +79,8 @@ function drawtheforgroundchat(){
 
         TextToSpeechUtil.getMp3Data(customGreetingMessage)
         .then(async (data) => {
+            can.drawACoolBackground();
+            can.drawIconInMenu();
             can.renderBars(data);
             chatUtils.addMessage(customGreetingMessage);
         })
