@@ -33,41 +33,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         //await startSpeechRecognition(settings[0].language);
         //console.log(settings[0])
     }
-    await setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);
+    setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);
 
     MenuManager.getInstance();
 });
 
-
-let blockclick = false;
 document.onclick = async () => {
-    if(!blockclick){
-        blockclick = true;
+    if(!MenuManager.getInstance().isLoading()){
+        MenuManager.getInstance().setLoading(true);
         if(can.stateOfApp == "home"){
             if(can.MouseOnClickMeButton()){
                 drawtheforgroundchat();
             }else if(can.MouseOnMenuIcon()){
                 can.drawMenu();
             }
-            await setTimeout(() => {blockclick = false;}, 150);
-            return
+            MenuManager.getInstance().setLoading(false);
+            return;
         }
         if(can.stateOfApp == "menu"){
             if(can.MouseOnMenuIcon()){
                 MenuManager.getInstance().unloadMenu();
                 can.drawHome();
             }
-            await setTimeout(() => {blockclick = false;}, 150);
+
+            MenuManager.getInstance().setLoading(false);
             return;
         }
         if(can.stateOfApp == "chat"){
             if(can.MouseOnMenuIcon()){
                 location.reload();
             }
-            await setTimeout(() => {blockclick = false;}, 150);
+            MenuManager.getInstance().setLoading(false);
             return;
         }
-        blockclick = false;
     }
 }
 

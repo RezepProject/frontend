@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from '../../node_modules/axios/index';
 import { TokenUtil } from './tokenUtil';
+import {MenuManager} from "./menuManager";
 
 export class QuestionHandler {
     private static instance: QuestionHandler | null = null;
@@ -36,6 +37,7 @@ export class QuestionHandler {
                 response = await axios.post(TokenUtil.route + '/assistantairouter', {
                     question,
                     sessionId: this.sessionId,
+                    language: MenuManager.getInstance().getSettings().language
                 }, config);
 
                 if (!this.sessionId) {
@@ -45,6 +47,7 @@ export class QuestionHandler {
                 response = await axios.post(TokenUtil.route + '/assistantairouter/mistral', {
                     question,
                     threadId: this.threadId,
+                    language: MenuManager.getInstance().getSettings().language
                 }, config);
 
                 if (!this.threadId) {

@@ -10,11 +10,30 @@ export class MenuManager{
     private menuString = "";
     private currentLan : string;
     private settingsProvider: Setting;
+    private currentlyLoading : boolean;
+    private loadingstorage = "";
 
     constructor() {
         this.imagesDoneLoading = false;
         this.currentLan = "en";
         this.fetchBackgroundImage();
+        this.setLoading(true);
+        setTimeout(() => {
+            this.setLoading(false);
+        }, 1000)
+    }
+
+    public setLoading(val : boolean){
+        if(val && !this.currentlyLoading){
+            document.getElementById("playbody").style.display = "none";
+        }else if(!val && this.currentlyLoading){
+            document.getElementById("playbody").style.display = "contents";
+        }
+        this.currentlyLoading = val;
+    }
+
+    public isLoading(){
+        return this.currentlyLoading;
     }
 
     public getSettings(){
