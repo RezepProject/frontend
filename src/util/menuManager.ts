@@ -9,12 +9,23 @@ export class MenuManager{
     private imagesDoneLoading: boolean;
     private menuString = "";
     private currentLan : string;
-    public settingsProvider: Setting;
+    private settingsProvider: Setting;
 
     constructor() {
         this.imagesDoneLoading = false;
         this.currentLan = "en";
         this.fetchBackgroundImage();
+    }
+
+    public getSettings(){
+        return this.settingsProvider;
+    }
+
+    public setSettings(setting : Setting){
+        this.settingsProvider = setting;
+        if(setting.language == "de"){
+            this.currentLan = "de";
+        }
     }
 
     public static getInstance() : MenuManager{
@@ -34,9 +45,14 @@ export class MenuManager{
         document.getElementById("flags").onclick = () => {
             if(this.currentLan == "en"){
                 this.currentLan = "de";
+                this.settingsProvider.language = "de";
+                this.settingsProvider.greetingMessage = "Herzlich wilkommen am Tag der Offenen Tür an der HTL-Leonding, wie kann ich dir behilflich sein?"
             }else{
                 this.currentLan = "en";
+                this.settingsProvider.language = "en-US";
+                this.settingsProvider.greetingMessage = "Welcome to the HTL-Leonding Open Day. How can I be of service?"
             }
+            ChatUtil.sendSetting(this.settingsProvider);
             CanvasUtil.getInstance().drawMenu();
         }
         const thumbnails = document.querySelectorAll(".background-thumb");

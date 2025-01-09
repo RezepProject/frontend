@@ -1,8 +1,10 @@
+import {MenuManager} from "./menuManager";
+
 export class SpeechToTextUtil {
     private recognition: SpeechRecognition | null = null;
     private language: string;
 
-    constructor(language: string = 'en-US') {
+    constructor(language: string = MenuManager.getInstance().getSettings().language) {
         this.language = language;
         if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
             console.error("Spracherkennung nicht verfügbar");

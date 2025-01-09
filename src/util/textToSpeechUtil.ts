@@ -1,3 +1,5 @@
+import {MenuManager} from "./menuManager";
+
 export class TextToSpeechUtil {
     private static ttsApiUrl = "https://if200181.cloud.htl-leonding.ac.at/v1/audio/speech";
 
@@ -11,7 +13,7 @@ export class TextToSpeechUtil {
             const payload = {
                 model: "tts-1",
                 input: text,
-                voice: "alloy",
+                voice: (MenuManager.getInstance().getLan() == "de") ? "thorsten-emotionally-amused" : "alloy",
                 //thorsten-emotionally-amused <- deutsche voice
                 //alloy                       <- englische voice
                 response_format: "mp3",

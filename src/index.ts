@@ -9,7 +9,6 @@ import {MenuManager} from "./util/menuManager";
 
 let can : CanvasUtil;
 let theforgroundchat : HTMLElement;
-let customGreetingMessage :string;
 let chatUtils : ChatUtil;
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -21,8 +20,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     let settings : Setting = (await SettingsHandler.getInstance().getSettings())[0]
     if (settings != undefined) {
-        customGreetingMessage = settings.greetingMessage;
-        MenuManager.getInstance().settingsProvider = settings;
+        MenuManager.getInstance().setSettings(settings);
+
         let base64string = "data:image/jpg;base64," + settings.backgroundImage;
         can.setBackgroundImg(base64string);
         //SETTINGS WE MIGHT NEED LATER:
@@ -78,12 +77,12 @@ function drawtheforgroundchat(){
     chatUtils.buildChat();
     can.drawIconInMenu();
 
-        TextToSpeechUtil.getMp3Data(customGreetingMessage)
+        TextToSpeechUtil.getMp3Data(MenuManager.getInstance().getSettings().greetingMessage)
         .then(async (data) => {
             can.drawACoolBackground();
             can.drawIconInMenu();
             can.renderBars(data);
-            chatUtils.addMessage(customGreetingMessage);
+            chatUtils.addMessage(MenuManager.getInstance().getSettings().greetingMessage);
         })
         .catch((e) => {
             console.error(e);
