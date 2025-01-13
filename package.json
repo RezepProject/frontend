@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "proxy": "https://if200113.cloud.htl-leonding.ac.at",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "echo server running on http://localhost:4000/ && webpack-dev-server --mode development",
