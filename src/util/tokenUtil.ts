@@ -2,14 +2,13 @@ export class TokenUtil {
     private static instance: TokenUtil | null = null;
     private token: string | null = null;
 
-    public static route = "http://localhost:5260";
+    public static route = "https://if200113.cloud.htl-leonding.ac.at";
 
     private constructor() { }
 
     protected async setToken(): Promise<void> {
-        const route = "http://localhost:5260";
 
-        let resToken = await fetch(route + "/authentication", {
+        let resToken = await fetch(TokenUtil.route + "/authentication", {
             method: "POST",
             body: JSON.stringify({
                 "userIdentificator": "test",

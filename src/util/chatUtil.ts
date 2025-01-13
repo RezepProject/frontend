@@ -73,7 +73,7 @@ export class ChatUtil{
             throw new Error('Token is not available');
         }
 
-        const response = await fetch(`http://localhost:5260/settings/${setting.id}`, {
+        const response = await fetch(`https://if200113.cloud.htl-leonding.ac.at/settings/${setting.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
