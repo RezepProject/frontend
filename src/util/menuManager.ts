@@ -93,7 +93,7 @@ export class MenuManager{
     }
 
     private buildMenuString() {
-        let chosenflag = (this.currentLan == "en") ? `<img src="./img/Englishflag.svg.png" alt="English" class="flag">` : `<img src="./img/GermanyFlag.jpg" alt="English" class="flag">`;
+        let chosenflag = (this.currentLan == "en") ? `<img src="./img/Englishflag.png" alt="English" class="flag">` : `<img src="./img/GermanyFlag.jpg" alt="English" class="flag">`;
         let htmlsting = "";
         htmlsting += `<div class="menu">
       <!-- Language Selection Section -->
