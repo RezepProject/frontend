@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e5cccfb-824c-4419-805b-c132a8b9c2c0" name="Changes" comment="">
+    <list default="true" id="1e5cccfb-824c-4419-805b-c132a8b9c2c0" name="Changes" comment="added parse response and language selection">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/textToSpeechUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/textToSpeechUtil.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +21,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -48,7 +52,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "tts-parse-language",
     "last_opened_file_path": "C:/Users/felix/Documents/frontend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -80,11 +84,24 @@
       <workItem from="1736329334355" duration="10276000" />
       <workItem from="1736412602973" duration="6895000" />
       <workItem from="1736426850360" duration="2901000" />
-      <workItem from="1736842141748" duration="445000" />
+      <workItem from="1736842141748" duration="730000" />
     </task>
+    <task id="LOCAL-00001" summary="added parse response and language selection">
+      <option name="closed" value="true" />
+      <created>1736842756152</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1736842756152</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added parse response and language selection" />
+    <option name="LAST_COMMIT_MESSAGE" value="added parse response and language selection" />
   </component>
 </project>

@@ -19,8 +19,6 @@ export class TextToSpeechUtil {
                 model: "tts-1",
                 input: text,
                 voice: (language == "de") ? "thorsten-emotionally-amused" : "alloy",
-                //thorsten-emotionally-amused <- deutsche voice
-                //alloy                       <- englische voice
                 response_format: "mp3",
                 speed: 0.8,
             };
