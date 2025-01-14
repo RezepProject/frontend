@@ -187,7 +187,7 @@ export class CanvasUtil {
         this.ctx.textAlign = "center";
         this.ctx.shadowColor = "rgba(0,0,0,0.7)";
         this.ctx.shadowBlur = 10;
-        this.ctx.fillText((MenuManager.getInstance().getLan() == "en") ? "Lost?" : "Verlohren?", this.can.width / 2, this.can.height / 2 - 60);
+        this.ctx.fillText((MenuManager.getInstance().getLan() == "en") ? "Lost?" : "Verloren?", this.can.width / 2, this.can.height / 2 - 60);
 
         // Button Background
         this.ctx.shadowBlur = 20;
