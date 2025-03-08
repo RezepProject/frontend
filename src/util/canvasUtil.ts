@@ -10,6 +10,7 @@ export class CanvasUtil {
         this.ctx = this.configureCanvas(canvas);
         this.backgroundImg = "";
         this.stateOfApp = "home";
+        this.setMobile();
     }
 
     private static instance : CanvasUtil;
@@ -31,7 +32,7 @@ export class CanvasUtil {
 
     public stateOfApp : string;
 
-    private menuIcon = {
+    private menuIcon : MenuIconType = {
         lineWidth: 30,  // Width of the lines
         lineHeight: 4,  // Height of the lines
         lineSpacing: 8, // Spacing between the lines
@@ -40,6 +41,14 @@ export class CanvasUtil {
         startY: 0,       // Start Y position (will be calculated)
         size: 30,     // Size of the X
     };
+
+    public setMobile(){
+        for (const key in this.menuIcon) {
+            if (typeof this.menuIcon[key as keyof MenuIconType] === 'number') {
+                this.menuIcon[key as keyof MenuIconType] *= 2;
+            }
+        }
+    }
 
     public setBackgroundImg(newImg :string){
         this.backgroundImg = newImg;
