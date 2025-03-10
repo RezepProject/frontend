@@ -66,6 +66,12 @@ export class QuestionHandler {
                 window.localStorage.setItem('lastname', credentials.data.lastName);
                 window.localStorage.setItem('startdate', credentials.data.reservationStart);
                 window.localStorage.setItem('enddate', credentials.data.reservationEnd);
+
+                window.localStorage.setItem('sessionid', credentials.data.sessionId);
+                window.localStorage.setItem('prossespers', credentials.data.processPersonalData);
+                window.localStorage.setItem('threadId', credentials.data.chatGptThreadId);
+                window.localStorage.setItem('resId', credentials.data.reservationId);
+
                 window.localStorage.setItem('checkInRelaod', "true");
                 location.reload();
             }

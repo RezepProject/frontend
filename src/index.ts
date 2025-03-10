@@ -6,6 +6,7 @@ import './style.css';
 import {SettingsHandler} from "./util/settingsHandler";
 import {ChatUtil} from "./util/chatUtil";
 import {MenuManager} from "./util/menuManager";
+import {CheckInHandler} from "./util/checkinHandler";
 
 let can : CanvasUtil;
 let theforgroundchat : HTMLElement;
@@ -96,7 +97,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Add event listeners
         document.getElementById("confirmBtn")?.addEventListener("click", () => {
+            CheckInHandler.getInstance().switchCheckIn();
+            confirmContainer.innerHTML = "";
+            can.drawACoolBackground();
+            setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);
 
+            MenuManager.getInstance();
         });
 
         document.getElementById("discardBtn")?.addEventListener("click", () => {
