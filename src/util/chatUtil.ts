@@ -17,6 +17,7 @@ export class ChatUtil{
         </div>`;
         this.chatContainer = document.getElementById("chatContainer");
         this.buildChat();
+
     }
 
     public addMessage(mess : string){

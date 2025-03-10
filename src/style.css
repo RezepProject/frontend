@@ -11,10 +11,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 90vw; /* 90% of the viewport width */
-  height: 90vw; /* Ensure it's a square */
-  max-width: 90vh; /* Restrict size based on height for responsiveness */
-  max-height: 90vh;
+  width: 90vh; /* 90% of the viewport width */
+  height: 90vh; /* Ensure it's a square */
   transform: translate(-50%, -50%); /* Center horizontally and vertically */
   z-index: 10; /* Foreground */
   background: rgba(255, 255, 255, 0.4); /* Slight transparency */

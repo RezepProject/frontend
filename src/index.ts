@@ -85,9 +85,8 @@ function drawtheforgroundchat(){
         .catch((e) => {
             console.error(e);
         });
-
 }
-
+    
 export function audioFinished(){
     chatUtils.doneSpeaking();
     work();

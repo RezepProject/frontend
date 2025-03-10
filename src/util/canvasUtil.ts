@@ -10,7 +10,9 @@ export class CanvasUtil {
         this.ctx = this.configureCanvas(canvas);
         this.backgroundImg = "";
         this.stateOfApp = "home";
-        this.setMobile();
+        if(this.can.width < this.can.height){
+            this.setMobile();
+        }
     }
 
     private static instance : CanvasUtil;
@@ -25,6 +27,7 @@ export class CanvasUtil {
     private can : HTMLCanvasElement;
     private ctx : CanvasRenderingContext2D;
     private backgroundImg : string;
+    private isMobile : boolean = false;
     private allBckgrndImgs : string[];
 
     private MousePosX : number;
@@ -43,6 +46,7 @@ export class CanvasUtil {
     };
 
     public setMobile(){
+        this.isMobile = true;
         for (const key in this.menuIcon) {
             if (typeof this.menuIcon[key as keyof MenuIconType] === 'number') {
                 this.menuIcon[key as keyof MenuIconType] *= 2;
@@ -185,13 +189,12 @@ export class CanvasUtil {
         }
     }
 
-
     public drawText() {
         // Background Gradient
         this.drawACoolBackground();
 
         // Title Text
-        this.ctx.font = "bold 80px Arial";
+        this.ctx.font = `bold ${this.isMobile ? this.can.width / 5 : this.can.height / 5}px Arial`;
         this.ctx.fillStyle = "white";
         this.ctx.textAlign = "center";
         this.ctx.shadowColor = "rgba(0,0,0,0.7)";
@@ -201,7 +204,8 @@ export class CanvasUtil {
         // Button Background
         this.ctx.shadowBlur = 20;
         this.ctx.fillStyle = "#ff6b6b";
-        const btnWidth = 400, btnHeight = 100;
+        const btnWidth = this.isMobile ? this.can.width / 1.2 : this.can.width / 3,
+            btnHeight = 100;
         const btnX = (this.can.width - btnWidth) / 2;
         const btnY = this.can.height / 2;
 
@@ -217,7 +221,8 @@ export class CanvasUtil {
     }
 
     public MouseOnClickMeButton() : boolean {
-        const btnWidth = 400, btnHeight = 100;
+        const btnWidth = this.isMobile ? this.can.width / 1.2 : this.can.width / 3,
+            btnHeight = 100;
         const btnX = (this.can.width - btnWidth) / 2;
         const btnY = this.can.height / 2;
 
@@ -271,6 +276,12 @@ export class CanvasUtil {
     }
 
     public drawIconInMenu() {
+        const chatContainer = document.getElementById("chatContainer");
+        if (chatContainer && this.isMobile) {
+            chatContainer.style.width = "90vw";
+            chatContainer.style.height = "85vh";
+        }
+
         this.menuIcon.startX = this.can.width - this.menuIcon.size - this.menuIcon.padding;
         this.menuIcon.startY = this.menuIcon.padding;
 
