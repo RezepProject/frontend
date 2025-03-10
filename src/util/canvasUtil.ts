@@ -52,6 +52,17 @@ export class CanvasUtil {
                 this.menuIcon[key as keyof MenuIconType] *= 2;
             }
         }
+        let style = document.createElement("style");
+        style.innerHTML = "p { font-size: 40px !important; }";
+        document.head.appendChild(style);
+        style = document.createElement("style");
+        style.innerHTML = `
+        .background-thumb {
+            width: 100px !important;
+            height: 66px !important;
+        }
+    `;
+        document.head.appendChild(style);
     }
 
     public setBackgroundImg(newImg :string){
