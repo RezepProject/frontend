@@ -33,9 +33,81 @@ document.addEventListener("DOMContentLoaded", async () => {
         //await startSpeechRecognition(settings[0].language);
         //console.log(settings[0])
     }
-    setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);
+    if(window.localStorage.getItem('checkInRelaod') !== "true"){
+        setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);
 
-    MenuManager.getInstance();
+        MenuManager.getInstance();
+    }else{
+        can.drawACoolBackground();
+        const confirmContainer = document.getElementById("confirmCredentaials");
+
+        if (!confirmContainer) return;
+
+        // Retrieve stored values
+        const firstName = localStorage.getItem("firstname") || "";
+        const lastName = localStorage.getItem("lastname") || "";
+        const startDate = localStorage.getItem("startdate") || "";
+        const endDate = localStorage.getItem("enddate") || "";
+
+        // Create the modal HTML
+        confirmContainer.innerHTML = `
+        <div id="overlay" style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        ">
+            <div style="
+                position: relative;
+                width: 400px;
+                padding: 20px;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                font-family: Arial, sans-serif;
+            ">
+                <h2 style="text-align: center; color: #333;">Confirm Your Details</h2>
+                
+                <label style="font-weight: bold; display: block; margin-top: 10px;">First Name</label>
+                <input id="firstNameInput" type="text" value="${firstName}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px;">
+
+                <label style="font-weight: bold; display: block;">Last Name</label>
+                <input id="lastNameInput" type="text" value="${lastName}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px;">
+
+                <label style="font-weight: bold; display: block;">Start Date</label>
+                <input id="startDateInput" type="date" value="${startDate}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px;">
+
+                <label style="font-weight: bold; display: block;">End Date</label>
+                <input id="endDateInput" type="date" value="${endDate}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 20px;">
+
+                <div style="display: flex; justify-content: space-between;">
+                    <button id="confirmBtn" style="background: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; flex: 1; margin-right: 5px;">Confirm</button>
+                    <button id="discardBtn" style="background: #dc3545; color: white; padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; flex: 1; margin-left: 5px;">Discard</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+        // Add event listeners
+        document.getElementById("confirmBtn")?.addEventListener("click", () => {
+
+        });
+
+        document.getElementById("discardBtn")?.addEventListener("click", () => {
+            localStorage.removeItem("firstname");
+            localStorage.removeItem("lastname");
+            localStorage.removeItem("startdate");
+            localStorage.removeItem("enddate");
+            localStorage.removeItem("checkInRelaod");
+            location.reload();
+        });
+    }
 });
 
 document.onclick = async () => {

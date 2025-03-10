@@ -59,6 +59,16 @@ export class QuestionHandler {
                 return undefined;
             }
 
+            if(response.data.reservation){
+                const credentials = await axios.get(TokenUtil.route + `/usersession/${response.data.userSessionId}`, config);
+
+                window.localStorage.setItem('firstname', credentials.data.firstName);
+                window.localStorage.setItem('lastname', credentials.data.lastName);
+                window.localStorage.setItem('startdate', credentials.data.reservationStart);
+                window.localStorage.setItem('enddate', credentials.data.reservationEnd);
+                window.localStorage.setItem('checkInRelaod', "true");
+                location.reload();
+            }
             return response.data.answer;
         } catch (error) {
             console.error('Error fetching AI answer:', error);
