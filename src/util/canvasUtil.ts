@@ -2,6 +2,9 @@ import {ChatUtil} from "./chatUtil";
 import {audioFinished} from "../index";
 import {TokenUtil} from "./tokenUtil";
 import {MenuManager} from "./menuManager";
+import {QrUtil} from "./qrCodeUtil";
+import {QuestionHandler} from "./questionHandler";
+
 
 export class CanvasUtil {
     constructor(canvas : HTMLCanvasElement) {
@@ -238,6 +241,8 @@ export class CanvasUtil {
         const btnY = this.can.height / 2;
 
         if(this.MousePosX >= btnX && this.MousePosX <= btnX + btnWidth && this.MousePosY >= btnY && this.MousePosY <= btnY + btnHeight){
+            //this.showQRCode();
+            setTimeout(() => {this.showQRCode()}, 100);
             this.stateOfApp = "chat";
             return true;
         }
@@ -285,6 +290,12 @@ export class CanvasUtil {
         this.drawText();
         this.drawMenuIcon();
     }
+
+    public showQRCode() {
+        let url = window.location.href + "/" + QuestionHandler.getInstance().sessionId;
+        QrUtil.showPopup(url)
+    }
+
 
     public drawIconInMenu() {
         const chatContainer = document.getElementById("chatContainer");

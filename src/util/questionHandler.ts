@@ -2,10 +2,12 @@ import axios, { AxiosRequestConfig, AxiosResponse } from '../../node_modules/axi
 import { TokenUtil } from './tokenUtil';
 import {MenuManager} from "./menuManager";
 
+
+
 export class QuestionHandler {
     private static instance: QuestionHandler | null = null;
     private AIInUse: string = 'ChatGPT';
-    private sessionId: string | null = null;
+    public sessionId: string | null = this.getSessionId();
     private lock: boolean = false;
     private threadId: string | null = null;
 
@@ -17,6 +19,23 @@ export class QuestionHandler {
         }
         return QuestionHandler.instance;
     }
+
+    private getSessionId(): string | null {
+        let url = window.location.href;
+
+        if (url.endsWith('/')) {
+            url = url.slice(0, -1);
+        }
+        const parts = url.split('/');
+        let id = parts[parts.length - 1];
+        if (id === 'rezep-project-5chif.web.app') {
+            id = null;
+        }
+        return id;
+    }
+
+
+
 
     public async getAnswerFromAi(question: string): Promise<string | undefined> {
         if (this.lock) return undefined;
