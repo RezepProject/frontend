@@ -241,7 +241,6 @@ export class CanvasUtil {
         const btnY = this.can.height / 2;
 
         if(this.MousePosX >= btnX && this.MousePosX <= btnX + btnWidth && this.MousePosY >= btnY && this.MousePosY <= btnY + btnHeight){
-            //this.showQRCode();
             this.stateOfApp = "chat";
             return true;
         }
