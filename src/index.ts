@@ -15,7 +15,7 @@ let chatUtils : ChatUtil;
 
 function switchDateFormat(dateString : string) : string {
     const [year, month, day] = dateString.split("-");
-    return `${year}.${day}.${month}`;
+    return `${year}-${day}-${month}`;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
