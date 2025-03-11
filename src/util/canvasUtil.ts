@@ -216,7 +216,7 @@ export class CanvasUtil {
         const btnY = this.can.height / 2;
 
         if(this.MousePosX >= btnX && this.MousePosX <= btnX + btnWidth && this.MousePosY >= btnY && this.MousePosY <= btnY + btnHeight){
-            //this.showQRCode();
+            //TODO: Paste this line at the correct location. Currently at loading the canvas
             setTimeout(() => {this.showQRCode()}, 100);
             this.stateOfApp = "chat";
             return true;

@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e5cccfb-824c-4419-805b-c132a8b9c2c0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/util/qrCodeUtil.ts" afterDir="false" />
+    <list default="true" id="1e5cccfb-824c-4419-805b-c132a8b9c2c0" name="Changes" comment="added qr code popup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/declarations.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/declarations.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/canvasUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/canvasUtil.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/questionHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/questionHandler.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,12 +86,25 @@
       <workItem from="1736412602973" duration="6895000" />
       <workItem from="1736426850360" duration="2901000" />
       <workItem from="1737708757140" duration="13465000" />
-      <workItem from="1741633258880" duration="6692000" />
+      <workItem from="1741633258880" duration="7580000" />
     </task>
+    <task id="LOCAL-00001" summary="added qr code popup">
+      <option name="closed" value="true" />
+      <created>1741680033088</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741680033088</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added qr code popup" />
+    <option name="LAST_COMMIT_MESSAGE" value="added qr code popup" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
