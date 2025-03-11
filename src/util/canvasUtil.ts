@@ -216,8 +216,6 @@ export class CanvasUtil {
         const btnY = this.can.height / 2;
 
         if(this.MousePosX >= btnX && this.MousePosX <= btnX + btnWidth && this.MousePosY >= btnY && this.MousePosY <= btnY + btnHeight){
-            //TODO: Paste this line at the correct location. Currently at loading the canvas
-            setTimeout(() => {this.showQRCode()}, 100);
             this.stateOfApp = "chat";
             return true;
         }
@@ -238,7 +236,11 @@ export class CanvasUtil {
             if(this.stateOfApp == "home"){
                 this.stateOfApp = "menu";
             }else if(this.stateOfApp == "menu"){
-                this.stateOfApp = "home";
+                (async () => {
+                    await this.showQRCode();
+                    CanvasUtil.getInstance().stateOfApp = "home";
+                })();
+
             }else if(this.stateOfApp == "chat"){
                 this.stateOfApp = "home";
             }
@@ -266,9 +268,9 @@ export class CanvasUtil {
         this.drawMenuIcon();
     }
 
-    public showQRCode() {
+    public async showQRCode() {
         let url = window.location.href + "/" + QuestionHandler.getInstance().sessionId;
-        QrUtil.showPopup(url)
+        await QrUtil.showQRCodeUntilClose(url);
     }
 
 

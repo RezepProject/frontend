@@ -7,6 +7,7 @@
     <list default="true" id="1e5cccfb-824c-4419-805b-c132a8b9c2c0" name="Changes" comment="added qr code popup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/canvasUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/canvasUtil.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/qrCodeUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/qrCodeUtil.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +53,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "qrcode",
+    "git-widget-placeholder": "qr-code-design",
     "last_opened_file_path": "C:/Users/felix/Documents/Projects/PA/frontend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
