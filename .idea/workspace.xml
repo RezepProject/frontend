@@ -86,9 +86,26 @@
       <workItem from="1741629328719" duration="2365000" />
       <workItem from="1741633423114" duration="9619000" />
     </task>
+    <task id="LOCAL-00001" summary="added qr code popup">
+      <option name="closed" value="true" />
+      <created>1741680033088</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741680033088</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added qr code popup" />
+    <option name="LAST_COMMIT_MESSAGE" value="added qr code popup" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
