@@ -242,7 +242,6 @@ export class CanvasUtil {
 
         if(this.MousePosX >= btnX && this.MousePosX <= btnX + btnWidth && this.MousePosY >= btnY && this.MousePosY <= btnY + btnHeight){
             //this.showQRCode();
-            setTimeout(() => {this.showQRCode()}, 100);
             this.stateOfApp = "chat";
             return true;
         }
@@ -290,12 +289,6 @@ export class CanvasUtil {
         this.drawText();
         this.drawMenuIcon();
     }
-
-    public showQRCode() {
-        let url = window.location.href + "/" + QuestionHandler.getInstance().sessionId;
-        QrUtil.showPopup(url)
-    }
-
 
     public drawIconInMenu() {
         const chatContainer = document.getElementById("chatContainer");

@@ -7,10 +7,16 @@ import {SettingsHandler} from "./util/settingsHandler";
 import {ChatUtil} from "./util/chatUtil";
 import {MenuManager} from "./util/menuManager";
 import {CheckInHandler} from "./util/checkinHandler";
+import {QrUtil} from "./util/qrCodeUtil";
 
 let can : CanvasUtil;
 let theforgroundchat : HTMLElement;
 let chatUtils : ChatUtil;
+
+function switchDateFormat(dateString : string) : string {
+    const [year, month, day] = dateString.split("-");
+    return `${year}.${day}.${month}`;
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
     can = CanvasUtil.getInstance();
@@ -34,7 +40,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         //await startSpeechRecognition(settings[0].language);
         //console.log(settings[0])
     }
-    if(window.localStorage.getItem('checkInRelaod') !== "true"){
+
+    if(window.localStorage.getItem("qrCode") !== null && window.localStorage.getItem('qrCode').trim() !== "") {
+        can.drawACoolBackground();
+        QrUtil.showPopup(window.localStorage.getItem('qrCode'))
+    }else if(window.localStorage.getItem('checkInRelaod') !== "true"){
         setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);
 
         MenuManager.getInstance();
@@ -47,8 +57,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Retrieve stored values
         const firstName = localStorage.getItem("firstname") || "";
         const lastName = localStorage.getItem("lastname") || "";
-        const startDate = localStorage.getItem("startdate") || "";
-        const endDate = localStorage.getItem("enddate") || "";
+        const startDate = switchDateFormat(localStorage.getItem("startdate")) || "";
+        const endDate = switchDateFormat(localStorage.getItem("enddate")) || "";
 
         // Create the modal HTML
         confirmContainer.innerHTML = `
@@ -99,10 +109,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("confirmBtn")?.addEventListener("click", () => {
             CheckInHandler.getInstance().switchCheckIn();
             confirmContainer.innerHTML = "";
-            can.drawACoolBackground();
+            window.localStorage.setItem('qrCode', window.location.href + "/" + window.localStorage.getItem("sessionid"))
+            window.localStorage.removeItem("checkInRelaod");
+            location.reload();
+            /*can.drawACoolBackground();
             setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);
 
-            MenuManager.getInstance();
+            MenuManager.getInstance();*/
         });
 
         document.getElementById("discardBtn")?.addEventListener("click", () => {
@@ -139,6 +152,7 @@ document.onclick = async () => {
         }
         if(can.stateOfApp == "chat"){
             if(can.MouseOnMenuIcon()){
+                window.localStorage.setItem('qrCode', window.location.href + "/" + QuestionHandler.getInstance().sessionId);
                 location.reload();
             }
             MenuManager.getInstance().setLoading(false);
