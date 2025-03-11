@@ -42,7 +42,8 @@ export class QrUtil {
         closeButton.style.cursor = 'pointer';
         closeButton.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
         closeButton.onclick = () => {
-            document.body.removeChild(overlay);
+            window.localStorage.removeItem('qrCode')
+            location.reload();
         };
 
         overlay.appendChild(img);

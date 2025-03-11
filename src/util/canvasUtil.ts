@@ -13,6 +13,9 @@ export class CanvasUtil {
         this.ctx = this.configureCanvas(canvas);
         this.backgroundImg = "";
         this.stateOfApp = "home";
+        if(this.can.width < this.can.height){
+            this.setMobile();
+        }
     }
 
     private static instance : CanvasUtil;
@@ -27,6 +30,7 @@ export class CanvasUtil {
     private can : HTMLCanvasElement;
     private ctx : CanvasRenderingContext2D;
     private backgroundImg : string;
+    private isMobile : boolean = false;
     private allBckgrndImgs : string[];
 
     private MousePosX : number;
@@ -34,7 +38,7 @@ export class CanvasUtil {
 
     public stateOfApp : string;
 
-    private menuIcon = {
+    private menuIcon : MenuIconType = {
         lineWidth: 30,  // Width of the lines
         lineHeight: 4,  // Height of the lines
         lineSpacing: 8, // Spacing between the lines
@@ -43,6 +47,26 @@ export class CanvasUtil {
         startY: 0,       // Start Y position (will be calculated)
         size: 30,     // Size of the X
     };
+
+    public setMobile(){
+        this.isMobile = true;
+        for (const key in this.menuIcon) {
+            if (typeof this.menuIcon[key as keyof MenuIconType] === 'number') {
+                this.menuIcon[key as keyof MenuIconType] *= 2;
+            }
+        }
+        let style = document.createElement("style");
+        style.innerHTML = "p { font-size: 40px !important; }";
+        document.head.appendChild(style);
+        style = document.createElement("style");
+        style.innerHTML = `
+        .background-thumb {
+            width: 100px !important;
+            height: 66px !important;
+        }
+    `;
+        document.head.appendChild(style);
+    }
 
     public setBackgroundImg(newImg :string){
         this.backgroundImg = newImg;
@@ -179,13 +203,12 @@ export class CanvasUtil {
         }
     }
 
-
     public drawText() {
         // Background Gradient
         this.drawACoolBackground();
 
         // Title Text
-        this.ctx.font = "bold 80px Arial";
+        this.ctx.font = `bold ${this.isMobile ? this.can.width / 5 : this.can.height / 5}px Arial`;
         this.ctx.fillStyle = "white";
         this.ctx.textAlign = "center";
         this.ctx.shadowColor = "rgba(0,0,0,0.7)";
@@ -195,7 +218,8 @@ export class CanvasUtil {
         // Button Background
         this.ctx.shadowBlur = 20;
         this.ctx.fillStyle = "#ff6b6b";
-        const btnWidth = 400, btnHeight = 100;
+        const btnWidth = this.isMobile ? this.can.width / 1.2 : this.can.width / 3,
+            btnHeight = 100;
         const btnX = (this.can.width - btnWidth) / 2;
         const btnY = this.can.height / 2;
 
@@ -211,13 +235,12 @@ export class CanvasUtil {
     }
 
     public MouseOnClickMeButton() : boolean {
-        const btnWidth = 400, btnHeight = 100;
+        const btnWidth = this.isMobile ? this.can.width / 1.2 : this.can.width / 3,
+            btnHeight = 100;
         const btnX = (this.can.width - btnWidth) / 2;
         const btnY = this.can.height / 2;
 
         if(this.MousePosX >= btnX && this.MousePosX <= btnX + btnWidth && this.MousePosY >= btnY && this.MousePosY <= btnY + btnHeight){
-            //TODO: Paste this line at the correct location. Currently at loading the canvas
-            setTimeout(() => {this.showQRCode()}, 100);
             this.stateOfApp = "chat";
             return true;
         }
@@ -266,13 +289,13 @@ export class CanvasUtil {
         this.drawMenuIcon();
     }
 
-    public showQRCode() {
-        let url = window.location.href + "/" + QuestionHandler.getInstance().sessionId;
-        QrUtil.showPopup(url)
-    }
-
-
     public drawIconInMenu() {
+        const chatContainer = document.getElementById("chatContainer");
+        if (chatContainer && this.isMobile) {
+            chatContainer.style.width = "90vw";
+            chatContainer.style.height = "85vh";
+        }
+
         this.menuIcon.startX = this.can.width - this.menuIcon.size - this.menuIcon.padding;
         this.menuIcon.startY = this.menuIcon.padding;
 

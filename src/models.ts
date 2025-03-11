@@ -16,3 +16,13 @@ interface Setting {
     state: boolean;
     aiInUse: string;
 }
+
+interface MenuIconType {
+    lineWidth: number;
+    lineHeight: number;
+    lineSpacing: number;
+    padding: number;
+    startX: number;
+    startY: number;
+    size: number;
+}
