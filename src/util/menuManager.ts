@@ -65,11 +65,11 @@ export class MenuManager{
             if(this.currentLan == "en"){
                 this.currentLan = "de";
                 this.settingsProvider.language = "de";
-                this.settingsProvider.greetingMessage = "Herzlich wilkommen am Tag der Offenen Tür an der HTL-Leonding, wie kann ich dir behilflich sein?"
+                this.settingsProvider.greetingMessage = "Herzlich willkommen beim Projekt-Award der HTL Leonding! Ich bin Herbert. Stellt mir gerne Fragen und entdeckt, was ich kann."
             }else{
                 this.currentLan = "en";
                 this.settingsProvider.language = "en-US";
-                this.settingsProvider.greetingMessage = "Welcome to the HTL-Leonding Open Day. How can I be of service?"
+                this.settingsProvider.greetingMessage = "Hello and welcome to the Project Award at HTL Leonding! I’m Herbert. Ask me anything"
             }
             ChatUtil.sendSetting(this.settingsProvider);
             CanvasUtil.getInstance().drawMenu();
