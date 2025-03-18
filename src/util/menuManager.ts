@@ -69,7 +69,7 @@ export class MenuManager{
             }else{
                 this.currentLan = "en";
                 this.settingsProvider.language = "en-US";
-                this.settingsProvider.greetingMessage = "Hello and welcome to the Project Award at HTL Leonding! I’m Herbert. Ask me anything"
+                this.settingsProvider.greetingMessage = "Welcome to our hotel! How can I assist you?"
             }
             ChatUtil.sendSetting(this.settingsProvider);
             CanvasUtil.getInstance().drawMenu();
