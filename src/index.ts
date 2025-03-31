@@ -127,6 +127,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             location.reload();
         });
     }
+
+
+    document.getElementById("bringmehomemygoodoldfriend").onclick = () => {
+        window.location.href = 'https://if200181.cloud.htl-leonding.ac.at/herbert/';
+    }
 });
 
 document.onclick = async () => {

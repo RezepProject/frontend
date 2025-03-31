@@ -345,3 +345,28 @@ h3 {
 
 
 
+.overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.cool-rectangle {
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.2); /* Semi-transparent black */
+  border-radius: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.console-text {
+  font-family: 'Courier New', Courier, monospace;
+  color: indianred; /* Bright green text */
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000000;
+}
+
+
+#bringmehomemygoodoldfriend{
+  cursor: pointer;
+}
