@@ -259,11 +259,89 @@ body, html {
 
 
 .puzzle {
-  display: flex; flex-wrap: wrap; width: 150px; margin-top: 10px;
+  width: 80%;
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
 .tile {
-  width: 50px; height: 50px; border: 1px solid #333; display: flex;
-  align-items: center; justify-content: center; cursor: pointer;
-  background-color: #eee; font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background: rgba(155, 155, 155, 0.9);
+  border-radius: 5px;
+  font-size: 2rem;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
-.empty { background-color: #fff; cursor: default; }
+
+.tile:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+
+.tile.x {
+  color: #ff5e57;
+}
+
+.tile.o {
+  color: #1dd1a1;
+}
+
+.dynamic-hovergreen:hover {
+  background-color: rgba(30, 178,50,0.7);
+  transform: scale(1.05);
+}
+.dynamic-hoverred:hover {
+  background-color: rgba(178, 30,50,0.7);
+  transform: scale(1.05);
+}
+
+
+
+button {
+  background: #7289da;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background: #5b6eae;
+  transform: scale(1.05);
+}
+
+
+.containerforzhetext {
+  background: linear-gradient(to right, #f9f9f9, #e0e0e0);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+h3 {
+  font-family: 'Arial', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+
+
+
+
