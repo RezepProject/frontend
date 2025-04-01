@@ -65,11 +65,11 @@ export class MenuManager{
             if(this.currentLan == "en"){
                 this.currentLan = "de";
                 this.settingsProvider.language = "de";
-                this.settingsProvider.greetingMessage = "Herzlich willkommen bei dem letzten Sprint. Stellt mir gerne Fragen und entdeckt, was ich kann."
+                this.settingsProvider.greetingMessage = "Herzlich willkommen in unserem Hotel! Stellt mir gerne Fragen und entdeckt was ich kann."
             }else{
                 this.currentLan = "en";
                 this.settingsProvider.language = "en-US";
-                this.settingsProvider.greetingMessage = "Welcome to the last sprint, how can i help you?"
+                this.settingsProvider.greetingMessage = "Welcome to the Hotel, how can i help you?"
             }
             ChatUtil.sendSetting(this.settingsProvider);
             CanvasUtil.getInstance().drawMenu();
