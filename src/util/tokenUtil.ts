@@ -22,7 +22,10 @@ export class TokenUtil {
         this.token = await resToken.text();
     }
 
-    public static async getInstance(): Promise<TokenUtil> {
+    public static async getInstance(reload: boolean = false): Promise<TokenUtil> {
+        if (reload) {
+            TokenUtil.instance = null;
+        }
         if (!TokenUtil.instance) {
             TokenUtil.instance = new TokenUtil();
             await TokenUtil.instance.setToken();

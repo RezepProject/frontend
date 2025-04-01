@@ -106,11 +106,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
 
         // Add event listeners
-        document.getElementById("confirmBtn")?.addEventListener("click", () => {
-            CheckInHandler.getInstance().switchCheckIn();
+        document.getElementById("confirmBtn")?.addEventListener("click", async () => {
+            await CheckInHandler.getInstance().switchCheckIn();
             confirmContainer.innerHTML = "";
             window.localStorage.setItem('qrCode', window.location.href + "/" + window.localStorage.getItem("sessionid"))
             window.localStorage.removeItem("checkInRelaod");
+            await new Promise(f => setTimeout(f, 1000));
             location.reload();
             /*can.drawACoolBackground();
             setTimeout(() => {can.drawACoolBackground(); can.drawText(); can.drawMenuIcon();}, 150);

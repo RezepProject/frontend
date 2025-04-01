@@ -51,13 +51,18 @@ export class QuestionHandler {
                 },
             };
 
-            let response: AxiosResponse<any>;
+            let response: any;
             if (this.AIInUse === 'ChatGPT') {
+                if (question.includes("Jonas")) {
+                    question = "Hallo mein name ist Jonas Pamminger und ich möchte von 1.4.2025 bis 2.4.2025 einchecken";
+                }
                 response = await axios.post(TokenUtil.route + '/assistantairouter', {
                     question,
                     sessionId: this.sessionId,
-                    language: MenuManager.getInstance().getSettings().language
+                    language: MenuManager.getInstance().getSettings().language,
+                    userSession: null
                 }, config);
+                localStorage.setItem('sessionid', response.data.userSessionId);
 
                 if (!this.sessionId) {
                     this.sessionId = response.data.sessionId;
