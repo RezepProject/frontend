@@ -101,10 +101,12 @@ export class ChatUtil{
             document.getElementById(`tile${i}`).onclick = () => {
                 let me = document.getElementById(`tile${i}`);
                 if(me.innerText == ""){
+                    me.classList.add("dynamic-hovergreen");
                     me.innerText = "X";
                     let bo = this.generateBoard(true);
                     if(bo){
                         document.getElementById(`tile${this.getBestMove(bo)}`).innerText = "O";
+                        document.getElementById(`tile${this.getBestMove(bo)}`).classList.add("dynamic-hoverred");
                     }
                     this.dialogIfOver();
                 }
@@ -128,9 +130,12 @@ export class ChatUtil{
             }
 
             document.getElementById("gameIsUpBox").innerHTML = `
+<br>
+<div class="containerforzhetext">
                 <h3>${winnertext}</h3>
                 <p>Dare to play again?</p>
                 <button id="thepalyagainbutton">click me (:</button>
+</div>
             `;
 
             document.getElementById("thepalyagainbutton").onclick = () => {
