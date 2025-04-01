@@ -53,8 +53,8 @@ export class QuestionHandler {
 
             let response: any;
             if (this.AIInUse === 'ChatGPT') {
-                if (question.includes("Jonas")) {
-                    question = "Hallo mein name ist Jonas Pamminger und ich möchte von 1.4.2025 bis 2.4.2025 einchecken";
+                if (question.includes("Niklas")) {
+                    question = "Hallo mein name ist Niklas Trinkl und ich möchte von 1.4.2025 bis 2.4.2025 einchecken";
                 }
                 response = await axios.post(TokenUtil.route + '/assistantairouter', {
                     question,
