@@ -42,6 +42,7 @@ export class CheckInHandler {
 
             let response: AxiosResponse<any>;
             response = await axios.post(TokenUtil.route + `/usersession/${localStorage.getItem('sessionid')}/reservation/checkout`, {}, config);
+
             console.log(response)
         } catch (error) {
             console.error('Error fetching AI answer:', error);
@@ -64,6 +65,7 @@ export class CheckInHandler {
 
             let response: AxiosResponse<any>;
             response = await axios.post(TokenUtil.route + `/usersession/${localStorage.getItem('sessionid')}/reservation/checkin`, {}, config);
+            console.log(localStorage.getItem('sessionid'))
             console.log(response)
         } catch (error) {
             console.error('Error fetching AI answer:', error);
@@ -96,6 +98,7 @@ export class CheckInHandler {
     }
 
     private async updateCredentials(): Promise<string | undefined> {
+        console.log("frsdthfzjgukzjthg")
         let firstn = (document.getElementById("firstNameInput") as HTMLInputElement).value;
         let lastn = (document.getElementById("lastNameInput") as HTMLInputElement).value;
         let startd = (document.getElementById("startDateInput") as HTMLInputElement).value;
@@ -112,28 +115,39 @@ export class CheckInHandler {
                 },
             };
 
-            let response: AxiosResponse<any>;
-let data = {
+            let response: any;
+            console.log(startd)
+let data :putdata = {
     sessionId: localStorage.getItem('sessionid'), // Ensure this value is available in your component/class
     chatGptThreadId: localStorage.getItem('threadId'), // Adjust according to your data source
-    processPersonalData: localStorage.getItem('prossespers') === 'true', // Default to true if not set
+    processPersonalData: true, // Default to true if not set
     firstName: firstn,
     lastName: lastn,
     reservationStart: startd,
     reservationEnd: endd,
-    reservationId: localStorage.getItem('resId')
+    reservationId: null,
 }
             response = await axios.put(TokenUtil.route + '/usersession', data, config);
-
+            console.log("das is der log")
+            console.log(response)
                 if (!this.sessionId) {
                     this.sessionId = response.data.sessionId;
                 }
             return response.data.answer;
         } catch (error) {
+
             console.error('Error fetching AI answer:', error);
             return undefined;
         } finally {
             this.lock = false;
         }
     }
+    private formatDate(input: string): string {
+        const parts = input.split("-");
+        if (parts.length !== 3) {
+            throw new Error("Ungültiges Datum. Erwartetes Format: YYYY-MM-DD");
+        }
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+
 }

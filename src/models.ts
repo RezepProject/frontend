@@ -26,3 +26,14 @@ interface MenuIconType {
     startY: number;
     size: number;
 }
+
+interface putdata {
+    sessionId: string;
+    chatGptThreadId: string;
+    processPersonalData: boolean;
+    firstName: string;
+    lastName: string;
+    reservationStart: string;
+    reservationEnd: string;
+    reservationId: string | null; // Explicitly allow null
+}
